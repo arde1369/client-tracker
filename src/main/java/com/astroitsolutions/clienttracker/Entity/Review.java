@@ -1,5 +1,6 @@
 package com.astroitsolutions.clienttracker.Entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -31,5 +32,6 @@ public class Review {
     private Client client;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Product product;
 }

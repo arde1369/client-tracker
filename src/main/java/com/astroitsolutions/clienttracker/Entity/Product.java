@@ -23,13 +23,15 @@ public class Product {
 
     @Id
     @GeneratedValue
-    @JsonProperty(access = Access.READ_ONLY)
     private int id;
 
+    @JsonProperty(access = Access.READ_ONLY)
     private Double price;
 
+    @JsonProperty(access = Access.READ_ONLY)
     private String description;
     
+    @JsonProperty(access = Access.READ_ONLY)
     private Rating rating;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -38,5 +40,7 @@ public class Product {
     private Transaction transaction;
 
     @OneToMany(mappedBy = "product")
+    @JsonProperty(access = Access.READ_ONLY)
+    @JsonBackReference
     private List<Review> productReviews = new ArrayList<>();
 }

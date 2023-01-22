@@ -16,4 +16,13 @@ public enum Rating {
     public int getValue(){
         return this.numericalRating;
     }
+
+    public static Rating getRating(int v){
+        for(Rating r : Rating.values()){
+            if (r.numericalRating == v){
+                return Rating.valueOf(r.name());
+            }
+        }
+        return null;
+    }
 }
