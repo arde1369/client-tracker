@@ -1,7 +1,10 @@
 package com.astroitsolutions.clienttracker.Entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -36,6 +39,10 @@ public class Client {
     private Address address;
 
     private Rating rating;
+
+    @CreationTimestamp
+    @JsonProperty(access = Access.READ_ONLY)
+    private Date createdTimeStamp;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference

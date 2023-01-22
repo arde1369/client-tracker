@@ -1,7 +1,10 @@
 package com.astroitsolutions.clienttracker.Entity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -33,6 +36,10 @@ public class Transaction {
     private List<Product> products = new ArrayList<>();
 
     private Double totalPrice;
+
+    @CreationTimestamp
+    @JsonProperty(access = Access.READ_ONLY)
+    private Date createdTimeStamp;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
