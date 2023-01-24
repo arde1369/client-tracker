@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.astroitsolutions.clienttracker.Entity.Client;
-import com.astroitsolutions.clienttracker.Entity.Rating;
 import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
 import com.astroitsolutions.clienttracker.Repository.ClientRepository;
@@ -165,13 +164,13 @@ public class ClientService {
         }
     }
 
-    public void updateRatingForClientByFirstnameAndLastname(String firstname, String lastname, String rating){
+    public void updateRatingForClientByFirstnameAndLastname(String firstname, String lastname, int rating){
         log.debug("Updating rating for client by firsname - " + firstname +", and lastname - " + lastname);
         Optional<Client> retrievedClientOptional = clientRepository.findClientByFirstnameAndLastname(firstname, lastname);
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
 
-            Rating calculatedRatingEnum = RatingCalculator.calculate(rating, retrievedClient.getRating());
+            int calculatedRatingEnum = RatingCalculator.calculate(rating, retrievedClient.getRating());
 
             retrievedClient.setRating(calculatedRatingEnum);
 
