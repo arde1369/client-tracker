@@ -49,7 +49,6 @@ public class ClientService {
             return retrievedClient;
         } else {
             log.debug("Unable to retrieve client by ID: " + String.valueOf(id));
-
         }
         return null;
     }
@@ -75,6 +74,7 @@ public class ClientService {
         Optional<Client> retrievedClientOptional = clientRepository.findById(clientId);
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
+
             retrievedClient.getReviews().add(review);
 
             clientRepository.save(retrievedClient);
@@ -146,16 +146,16 @@ public class ClientService {
         return null;
     }
 
-    public void updateRatingForClientById(int id, String rating){
+    public void updateRatingForClientById(int id, int rating){
         log.debug("Updating rating for client by client id: - " + id);
 
         Optional<Client> retrievedClientOptional = clientRepository.findById(id);
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
 
-            Rating calculatedRatingEnum = RatingCalculator.calculate(rating, retrievedClient.getRating());
+            int calculatedRating = RatingCalculator.calculate(rating, retrievedClient.getRating());
 
-            retrievedClient.setRating(calculatedRatingEnum);
+            retrievedClient.setRating(calculatedRating);
 
             clientRepository.save(retrievedClient);
 

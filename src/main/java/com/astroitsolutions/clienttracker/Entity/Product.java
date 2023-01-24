@@ -32,7 +32,7 @@ public class Product {
     private String description;
     
     @JsonProperty(access = Access.READ_ONLY)
-    private Rating rating;
+    private int rating;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference

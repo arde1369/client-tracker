@@ -38,7 +38,7 @@ public class Client {
     @Embedded
     private Address address;
 
-    private Rating rating;
+    private int rating;
 
     @CreationTimestamp
     @JsonProperty(access = Access.READ_ONLY)

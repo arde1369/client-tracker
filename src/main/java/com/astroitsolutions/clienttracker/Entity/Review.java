@@ -22,7 +22,7 @@ public class Review {
     @JsonProperty(access = Access.READ_ONLY)
     private int id;
 
-    private Rating rating;
+    private int rating;
 
     private String description;
 
