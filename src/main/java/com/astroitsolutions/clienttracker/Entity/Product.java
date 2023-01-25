@@ -25,10 +25,10 @@ public class Product {
     @GeneratedValue
     private int id;
 
-    @JsonProperty(access = Access.READ_ONLY)
     private Double price;
 
-    @JsonProperty(access = Access.READ_ONLY)
+    private String name;
+
     private String description;
     
     @JsonProperty(access = Access.READ_ONLY)

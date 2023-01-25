@@ -4,12 +4,17 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.astroitsolutions.clienttracker.Entity.Client;
+import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
 import com.astroitsolutions.clienttracker.Repository.ClientRepository;
+import com.astroitsolutions.clienttracker.Repository.ProductRepository;
 import com.astroitsolutions.clienttracker.Util.RatingCalculator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -19,21 +24,30 @@ import lombok.extern.slf4j.Slf4j;
 public class ClientService {
     
     @Autowired
-    public ClientRepository clientRepository;
+    private ClientRepository clientRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+    
     public Client addClient(Client client){
 
         log.debug("Adding client: " + client.toString());
 
         Client addedClient = null;
 
-        try{
-            addedClient = clientRepository.save(client);
-            log.info("Successfully added client: " + addedClient);
-        } catch(Exception ex){
-            log.error("Error while adding client - ", ex);
-            throw ex;
+        if(client != null){
+            try{
+                addedClient = clientRepository.save(client);
+                log.info("Successfully added client: " + addedClient);
+            } catch(Exception ex){
+                log.error("Error while adding client - ", ex);
+                throw ex;
+            }
+        } else {
+            log.error("Unable to add null client");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
+
         return addedClient;
     }
 
@@ -46,16 +60,17 @@ public class ClientService {
             Client retrievedClient = retrievedClientOptional.get();
             log.info("Successfully retrieved client by ID: " + retrievedClient);
             return retrievedClient;
-        } else {
-            log.debug("Unable to retrieve client by ID: " + String.valueOf(id));
-        }
+        } 
+            
+        log.debug("Unable to retrieve client by ID: " + String.valueOf(id));
+        
         return null;
     }
 
     public Client retrieveClientByFirstnameAndLastname(String firstname, String lastname){
         log.debug("Retrieving client by firsname - " + firstname +", and lastname - " + lastname);
 
-        Optional<Client> retrievedClientOptional = clientRepository.findClientByFirstnameAndLastname(firstname, lastname);
+        Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
 
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
@@ -68,13 +83,15 @@ public class ClientService {
     }
 
     public void addReviewForProductByClientId(int clientId, Review review){
-        log.debug("Adding review by client id: - " + clientId);
+        log.debug("Adding review by client id - " + clientId);
 
         Optional<Client> retrievedClientOptional = clientRepository.findById(clientId);
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
 
             retrievedClient.getReviews().add(review);
+
+            updateProductRatingFromReview(review.getProduct(), review.getRating());
 
             clientRepository.save(retrievedClient);
             log.info("Successfully added review for client ID " + clientId);
@@ -83,8 +100,19 @@ public class ClientService {
         }
     }
 
+    //Helper method to update product rating from review
+    private void updateProductRatingFromReview(Product product, int rating) {
+        Optional<Product> retrievedProductOptional = productRepository.findById(product.getId());
+        Product retrievedProduct = retrievedProductOptional.get();
+
+        int calculatedRating = RatingCalculator.calculate(rating, retrievedProduct.getRating());
+        retrievedProduct.setRating(calculatedRating);
+
+        productRepository.save(retrievedProduct);
+    }
+
     public List<Review> getReviewsAddedByClientById(int id){
-        log.debug("Retrieving reviews by client id: - " + id);
+        log.debug("Retrieving reviews by client id - " + id);
 
         Optional<Client> retrievedClientOptional = clientRepository.findById(id);
         if(retrievedClientOptional.isPresent()){
@@ -102,7 +130,7 @@ public class ClientService {
     public List<Review> getReviewsAddedByClientByFirstnameAndLastname(String firstname, String lastname){
         log.debug("Retrieving reviews for client by firsname - " + firstname +", and lastname - " + lastname);
 
-        Optional<Client> retrievedClientOptional = clientRepository.findClientByFirstnameAndLastname(firstname, lastname);
+        Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
 
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
@@ -115,7 +143,7 @@ public class ClientService {
     }
 
     public List<Transaction> getTransactionsByClientById(int id){
-        log.debug("Retrieving transactions by client id: - " + id);
+        log.debug("Retrieving transactions by client id - " + id);
 
         Optional<Client> retrievedClientOptional = clientRepository.findById(id);
         if(retrievedClientOptional.isPresent()){
@@ -133,7 +161,7 @@ public class ClientService {
     public List<Transaction> getTransactionsAddedByClientByFirstnameAndLastname(String firstname, String lastname){
         log.debug("Retrieving transactions for client by firsname - " + firstname +", and lastname - " + lastname);
 
-        Optional<Client> retrievedClientOptional = clientRepository.findClientByFirstnameAndLastname(firstname, lastname);
+        Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
 
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
@@ -146,7 +174,7 @@ public class ClientService {
     }
 
     public void updateRatingForClientById(int id, int rating){
-        log.debug("Updating rating for client by client id: - " + id);
+        log.debug("Updating rating for client by client id - " + id);
 
         Optional<Client> retrievedClientOptional = clientRepository.findById(id);
         if(retrievedClientOptional.isPresent()){
@@ -166,7 +194,7 @@ public class ClientService {
 
     public void updateRatingForClientByFirstnameAndLastname(String firstname, String lastname, int rating){
         log.debug("Updating rating for client by firsname - " + firstname +", and lastname - " + lastname);
-        Optional<Client> retrievedClientOptional = clientRepository.findClientByFirstnameAndLastname(firstname, lastname);
+        Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
 
