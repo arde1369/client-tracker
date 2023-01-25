@@ -32,7 +32,6 @@ public class Transaction {
 
     @OneToMany(mappedBy = "transaction", cascade = CascadeType.ALL)
     @JsonManagedReference
-    @JsonProperty(access = Access.READ_ONLY)
     private List<Product> products = new ArrayList<>();
 
     private Double totalPrice;

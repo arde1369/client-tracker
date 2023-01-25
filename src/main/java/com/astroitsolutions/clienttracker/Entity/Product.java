@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -39,7 +40,7 @@ public class Product {
     @JsonProperty(access = Access.READ_ONLY)
     private Transaction transaction;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     @JsonProperty(access = Access.READ_ONLY)
     @JsonBackReference
     private List<Review> productReviews = new ArrayList<>();

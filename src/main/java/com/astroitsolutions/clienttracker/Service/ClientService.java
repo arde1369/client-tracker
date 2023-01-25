@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -122,7 +121,7 @@ public class ClientService {
 
             return retrievedClient.getReviews();
         } else {
-            log.debug("Unable to retrieve reviews. No client found by client by ID: " + id );
+            log.info("Unable to retrieve reviews. No client found by client by ID: " + id );
         }
         return null;
     }
@@ -137,9 +136,41 @@ public class ClientService {
             log.info("Successfully retrieved reviews for client by firsname - " + firstname +", and lastname - " + lastname);
             return retrievedClient.getReviews();
         } else {
-            log.debug("Unable to retrieve reviews. No client found by firsname - " + firstname +", and lastname - " + lastname);
+            log.info("Unable to retrieve reviews. No client found by firsname - " + firstname +", and lastname - " + lastname);
         }
         return null;
+    }
+
+    public void addTransactionForClientById(int id, Transaction transaction){
+        log.debug("Adding transaction" + transaction + " for client id - " + id);
+        Optional<Client> retrievedClientOptional = clientRepository.findById(id);
+        if(retrievedClientOptional.isPresent()){
+            Client retrievedClient = retrievedClientOptional.get();
+            log.info("Successfully retrieved transactions for client ID " + id);
+
+            retrievedClient.getTransactions().add(transaction);
+
+            clientRepository.save(retrievedClient);
+            log.debug("Successfully Added transaction" + transaction + " for client id - " + id);
+        } else {
+            log.info("Unable to retrieve transactions for client. No client found by ID: " + id );
+        }
+    }
+
+    public void addTransactionForClientByFirstnameAndLastname(String firstname, String lastname, Transaction transaction){
+        log.debug("Adding transaction " + transaction + " by firsname - " + firstname +", and lastname - " + lastname);
+
+        Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
+
+        if(retrievedClientOptional.isPresent()){
+            Client retrievedClient = retrievedClientOptional.get();
+            retrievedClient.getTransactions().add(transaction);
+
+            clientRepository.save(retrievedClient);
+            log.info("Successfully Added transaction for client by firsname - " + firstname +", and lastname - " + lastname);
+        } else {
+            log.info("Unable to Add transaction. No client found by firsname - " + firstname +", and lastname - " + lastname);
+        }
     }
 
     public List<Transaction> getTransactionsByClientById(int id){
@@ -153,7 +184,7 @@ public class ClientService {
 
             return retrievedClient.getTransactions();
         } else {
-            log.debug("Unable to retrieve transactions. No client found by client by ID: " + id );
+            log.info("Unable to retrieve transactions. No client found by client by ID: " + id );
         }
         return null;
     }
@@ -168,7 +199,7 @@ public class ClientService {
             log.info("Successfully retrieved transactions for client by firsname - " + firstname +", and lastname - " + lastname);
             return retrievedClient.getTransactions();
         } else {
-            log.debug("Unable to retrieve transactions. No client found by firsname - " + firstname +", and lastname - " + lastname);
+            log.info("Unable to retrieve transactions. No client found by firsname - " + firstname +", and lastname - " + lastname);
         }
         return null;
     }
@@ -188,7 +219,7 @@ public class ClientService {
 
             log.info("Successfully updated client rating for client ID " + id);
         } else {
-            log.debug("Unable to update client rating. No client found by client by ID: " + id );
+            log.info("Unable to update client rating. No client found by client by ID: " + id );
         }
     }
 
@@ -206,7 +237,17 @@ public class ClientService {
 
             log.info("Successfully updated client rating for client by firsname - " + firstname +", and lastname - " + lastname);
         } else {
-            log.debug("Unable to update client rating. No client found by firsname - " + firstname +", and lastname - " + lastname);
+            log.info("Unable to update client rating. No client found by firsname - " + firstname +", and lastname - " + lastname);
         }
+    }
+
+    public void deleteClientById(int id){
+        log.info("Removing client by ID: " + id);
+        clientRepository.deleteById(id);
+    }
+
+    public void deleteClientByFirstAndLastname(String firstname, String lastname){
+        log.info("Removing client by firsname - " + firstname +", and lastname - " + lastname);
+        clientRepository.deleteByFirstnameAndLastname(firstname, lastname);
     }
 }

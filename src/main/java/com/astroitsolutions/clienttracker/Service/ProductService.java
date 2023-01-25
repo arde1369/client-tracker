@@ -1,5 +1,6 @@
 package com.astroitsolutions.clienttracker.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.astroitsolutions.clienttracker.Entity.Product;
+import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Repository.ProductRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -68,6 +70,38 @@ public class ProductService {
         }
         
         log.debug("Unable to retrieve product by name: " + name);
+        
+        return null;
+    }
+
+    public List<Review> retrieveAllReviewsForProductById(int id){
+        log.debug("Retrieving reviews for product by ID: " + String.valueOf(id));
+
+        Optional<Product> retrievedProductOptional = productRepository.findById(id);
+
+        if(retrievedProductOptional.isPresent()){
+            Product retrievedProduct = retrievedProductOptional.get();
+            log.info("Successfully retrieved reviews for product by ID: " + retrievedProduct);
+            return retrievedProduct.getProductReviews();
+        }
+        
+        log.debug("Unable to retrieve reviews for product by ID: " + String.valueOf(id));
+        
+        return null;
+    }
+
+    public List<Review> retrieveAllReviewsForProductByName(String name ){
+        log.debug("Retrieving reviews for product by name: " + name);
+
+        Optional<Product> retrievedProductOptional = productRepository.findByName(name);
+
+        if(retrievedProductOptional.isPresent()){
+            Product retrievedProduct = retrievedProductOptional.get();
+            log.info("Successfully retrieved reviews for product by name: " + retrievedProduct);
+            return retrievedProduct.getProductReviews();
+        }
+        
+        log.debug("Unable to retrieve reviews for product by name: " + name);
         
         return null;
     }
