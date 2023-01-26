@@ -29,7 +29,6 @@ public class Client {
     
     @Id
     @GeneratedValue
-    @JsonProperty(access = Access.READ_ONLY)
     private int id;
 
     private String firstname;
