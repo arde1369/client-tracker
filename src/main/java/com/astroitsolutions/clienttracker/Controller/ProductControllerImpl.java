@@ -52,7 +52,7 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @DeleteMapping("/delete/{name}")
+    @DeleteMapping("/delete/{id}")
     public void deleteProductById(@PathVariable int id) {
         // TODO Auto-generated method stub
         
