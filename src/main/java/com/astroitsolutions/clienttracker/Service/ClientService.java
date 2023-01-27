@@ -32,21 +32,9 @@ public class ClientService {
 
         log.debug("Adding client: " + client.toString());
 
-        Client addedClient = null;
-
-        if(client != null){
-            try{
-                addedClient = clientRepository.save(client);
-                log.info("Successfully added client: " + addedClient);
-            } catch(Exception ex){
-                log.error("Error while adding client - ", ex);
-                throw ex;
-            }
-        } else {
-            log.error("Unable to add null client");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-
+        Client addedClient = clientRepository.save(client);
+        log.info("Successfully added client: " + addedClient);
+        
         return addedClient;
     }
 
@@ -75,16 +63,16 @@ public class ClientService {
             Client retrievedClient = retrievedClientOptional.get();
             log.info("Successfully retrieved client by firsname - " + firstname +", and lastname - " + lastname);
             return retrievedClient;
-        } else {
-            log.debug("Unable to retrieve client by firsname - " + firstname +", and lastname - " + lastname);
         }
+
         return null;
     }
 
-    public void addReviewForProductByClientId(int clientId, Review review){
+    public boolean addReviewForProductByClientId(int clientId, Review review){
         log.debug("Adding review by client id - " + clientId);
 
         Optional<Client> retrievedClientOptional = clientRepository.findById(clientId);
+        boolean results = false;
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
 
@@ -94,9 +82,11 @@ public class ClientService {
 
             clientRepository.save(retrievedClient);
             log.info("Successfully added review for client ID " + clientId);
+            results = true;
         } else {
             log.debug("Unable to add review for product. No client found by by ID: " + clientId + ". Review was not added...");
         }
+        return results;
     }
 
     //Helper method to update product rating from review
@@ -141,9 +131,10 @@ public class ClientService {
         return null;
     }
 
-    public void addTransactionForClientById(int id, Transaction transaction){
+    public boolean addTransactionForClientById(int id, Transaction transaction){
         log.debug("Adding transaction" + transaction + " for client id - " + id);
         Optional<Client> retrievedClientOptional = clientRepository.findById(id);
+        boolean results = false;
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
             log.info("Successfully retrieved transactions for client ID " + id);
@@ -151,10 +142,12 @@ public class ClientService {
             retrievedClient.getTransactions().add(transaction);
 
             clientRepository.save(retrievedClient);
+            results = true;
             log.debug("Successfully Added transaction" + transaction + " for client id - " + id);
         } else {
             log.info("Unable to retrieve transactions for client. No client found by ID: " + id );
         }
+        return results;
     }
 
     public void addTransactionForClientByFirstnameAndLastname(String firstname, String lastname, Transaction transaction){
@@ -204,10 +197,11 @@ public class ClientService {
         return null;
     }
 
-    public void updateRatingForClientById(int id, int rating){
+    public boolean updateRatingForClientById(int id, int rating){
         log.debug("Updating rating for client by client id - " + id);
 
         Optional<Client> retrievedClientOptional = clientRepository.findById(id);
+        boolean results = false;
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
 
@@ -216,16 +210,20 @@ public class ClientService {
             retrievedClient.setRating(calculatedRating);
 
             clientRepository.save(retrievedClient);
-
+            
+            results = true;
+            
             log.info("Successfully updated client rating for client ID " + id);
         } else {
             log.info("Unable to update client rating. No client found by client by ID: " + id );
         }
+        return results;
     }
 
-    public void updateRatingForClientByFirstnameAndLastname(String firstname, String lastname, int rating){
+    public boolean updateRatingForClientByFirstnameAndLastname(String firstname, String lastname, int rating){
         log.debug("Updating rating for client by firsname - " + firstname +", and lastname - " + lastname);
         Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
+        boolean results = false;
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
 
@@ -235,10 +233,13 @@ public class ClientService {
 
             clientRepository.save(retrievedClient);
 
+            results = true;
+
             log.info("Successfully updated client rating for client by firsname - " + firstname +", and lastname - " + lastname);
         } else {
             log.info("Unable to update client rating. No client found by firsname - " + firstname +", and lastname - " + lastname);
         }
+        return results;
     }
 
     public void deleteClientById(int id){
