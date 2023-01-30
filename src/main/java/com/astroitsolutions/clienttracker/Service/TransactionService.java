@@ -17,23 +17,23 @@ import io.micrometer.common.util.StringUtils;
 @Service
 public class TransactionService {
 
-    private final String DATE_FORMAT = "yyyy-MM-dd";
+    public static final String DATE_FORMAT = "yyyy-MM-dd";
 
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public List<Transaction> findAllTransactionsByCreatedTimeStamp(String start, String end) throws ParseException{
+    public List<Transaction> findAllTransactionsByCreatedTimeStamp(String from, String to) throws ParseException{
 
-        Date startDate = null;
-        Date endDate = new SimpleDateFormat(DATE_FORMAT).parse(end);
-        if(StringUtils.isEmpty(start)){
+        Date toDate = null;
+        Date fromDate = new SimpleDateFormat(DATE_FORMAT).parse(from);
+        if(StringUtils.isEmpty(to)){
             DateFormat formatter = new SimpleDateFormat(DATE_FORMAT);
             Date today = new Date();
-            startDate = formatter.parse(formatter.format(today));
+            toDate = formatter.parse(formatter.format(today));
         } else {
-            startDate = new SimpleDateFormat(DATE_FORMAT).parse(start);
+            toDate = new SimpleDateFormat(DATE_FORMAT).parse(to);
         }
 
-        return transactionRepository.findAllByCreatedTimeStampBetween(startDate, endDate);
+        return transactionRepository.findByCreatedTimeStampBetween(fromDate, toDate);
     }
 }

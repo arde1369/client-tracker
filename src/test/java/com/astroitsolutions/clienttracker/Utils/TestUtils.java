@@ -1,8 +1,13 @@
 package com.astroitsolutions.clienttracker.Utils;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import com.astroitsolutions.clienttracker.Entity.Address;
 import com.astroitsolutions.clienttracker.Entity.Client;
@@ -33,21 +38,31 @@ public class TestUtils {
      */
     public List<Transaction> createTransactionList(Client mockClient) {
         List<Transaction> transactions = new ArrayList<>();
+        try{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date d1 = sdf.parse("2022-12-10");
+            Date d2 = sdf.parse("2022-12-20");
 
-        Transaction t1 = new Transaction();
-        t1.setClient(mockClient);
-        t1.setId(1);
-        t1.setProducts(createProductList(t1, mockClient));
-        t1.setTotalPrice(200d);
 
-        Transaction t2 = new Transaction();
-        t2.setClient(mockClient);
-        t2.setId(2);
-        t2.setProducts(createProductList(t2, mockClient));
-        t2.setTotalPrice(100d);
+            Transaction t1 = new Transaction();
+            t1.setClient(mockClient);
+            t1.setId(1);
+            t1.setProducts(createProductList(t1, mockClient));
+            t1.setTotalPrice(200d);
+            t1.setCreatedTimeStamp(d1);
 
-        transactions.add(t1);
-        transactions.add(t2);
+            Transaction t2 = new Transaction();
+            t2.setClient(mockClient);
+            t2.setId(2);
+            t2.setProducts(createProductList(t2, mockClient));
+            t2.setTotalPrice(100d);
+            t2.setCreatedTimeStamp(d2);
+
+            transactions.add(t1);
+            transactions.add(t2);
+        } catch(Exception ex){
+            System.out.print(ex);
+        }
 
         return transactions;
     }

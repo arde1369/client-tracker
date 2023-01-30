@@ -13,5 +13,5 @@ import jakarta.transaction.Transactional;
 @Transactional
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
-    List<Transaction> findAllByCreatedTimeStampBetween(Date start, Date end);
+    List<Transaction> findByCreatedTimeStampBetween(Date from, Date to);
 }

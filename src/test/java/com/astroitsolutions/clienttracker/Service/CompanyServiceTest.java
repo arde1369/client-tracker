@@ -28,11 +28,11 @@ public class CompanyServiceTest {
     @Mock
     private CompanyRepository companyRepository;
 
-    TestUtils clientTestUtils = new TestUtils();
+    TestUtils testUtils = new TestUtils();
     
     @Test
     public void addCompany_success(){
-        Company mockCompany = clientTestUtils.createNewMedSizeCompany(null);
+        Company mockCompany = testUtils.createNewMedSizeCompany(null);
 
         Mockito.when(companyRepository.save(mockCompany)).thenReturn(mockCompany);
 
@@ -44,7 +44,7 @@ public class CompanyServiceTest {
 
     @Test
     public void updateCompany_success(){
-        Company mockCompany = clientTestUtils.createNewMedSizeCompany(null);
+        Company mockCompany = testUtils.createNewMedSizeCompany(null);
 
         Mockito.when(companyRepository.save(mockCompany)).thenReturn(mockCompany);
 

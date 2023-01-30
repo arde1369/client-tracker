@@ -1,5 +1,6 @@
 package com.astroitsolutions.clienttracker.Controller;
 
+import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -7,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.astroitsolutions.clienttracker.Entity.Company;
-
-import lombok.NonNull;
 
 @RestController
 @RequestMapping("/api/company")
