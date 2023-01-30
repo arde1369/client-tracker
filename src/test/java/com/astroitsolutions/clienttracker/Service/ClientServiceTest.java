@@ -7,7 +7,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import java.util.List;
 import java.util.Optional;
 
-import org.aspectj.apache.bcel.generic.InstructionConstants.Clinit;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -23,7 +22,7 @@ import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
 import com.astroitsolutions.clienttracker.Repository.ClientRepository;
 import com.astroitsolutions.clienttracker.Repository.ProductRepository;
-import com.astroitsolutions.clienttracker.Utils.ClientTestUtils;
+import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
@@ -39,7 +38,7 @@ public class ClientServiceTest {
     @Mock
     private ProductRepository productRepository;
 
-    ClientTestUtils clientTestUtils = new ClientTestUtils();
+    TestUtils clientTestUtils = new TestUtils();
 
     @Test
     public void addClient_success(){

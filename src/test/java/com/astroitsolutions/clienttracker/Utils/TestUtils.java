@@ -11,7 +11,7 @@ import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
 
-public class ClientTestUtils {
+public class TestUtils {
 
     public Client createNewCompleteClient(){
         Client mockClient = new Client();
