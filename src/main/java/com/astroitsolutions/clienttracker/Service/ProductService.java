@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
@@ -24,20 +22,8 @@ public class ProductService {
     public Product addProduct(Product product){
         log.debug("Adding product: " + product.toString());
 
-        Product addedProduct = null;
-
-        if(product != null){
-            try{
-                addedProduct = productRepository.save(product);
-                log.info("Successfully added client: " + addedProduct);
-            } catch(Exception ex){
-                log.error("Error while adding client - ", ex);
-                throw ex;
-            }
-        } else {
-            log.error("Unable to add null client");
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
+        Product addedProduct = productRepository.save(product);
+        log.info("Successfully added client: " + addedProduct);
 
         return addedProduct;
     }

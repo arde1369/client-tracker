@@ -1,6 +1,7 @@
 package com.astroitsolutions.clienttracker.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.astroitsolutions.clienttracker.Entity.Address;
@@ -51,6 +52,9 @@ public class TestUtils {
         return transactions;
     }
 
+    /**
+     * Helmper method to create single transaction
+     */
     public Transaction createSingleTransaction(Client mockClient) {
         Transaction t1 = new Transaction();
         t1.setClient(mockClient);
@@ -92,6 +96,24 @@ public class TestUtils {
     }
 
     /**
+     * Helper method to create a product
+     */
+    public Product createSingleProduct() {
+
+        Product p = new Product();
+        p.setDescription(null);
+        p.setId(1);
+        p.setName("Apple Juice");
+        p.setPrice(3.99);
+        p.setRating(4);
+        p.setProductReviews(Arrays.asList(createSingleReview(p)));
+
+        return p;
+    }
+
+    
+
+    /**
      * Helper method to create list of reviews
      */
     public List<Review> createReviewsList(Product product, Client mockClient) {
@@ -118,6 +140,20 @@ public class TestUtils {
         reviews.add(r2);
 
         return reviews;
+    }
+
+    /**
+     * Helper method to create a review
+     */
+    public Review createSingleReview(Product p) {
+
+        Review r1 = new Review();
+        r1.setDescription("Great product!");
+        r1.setRating(5);
+        r1.setId(1);
+        r1.setProduct(p);
+
+        return r1;
     }
 
     /**
