@@ -16,10 +16,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
 @NoArgsConstructor
+@ToString
 public class Product {
 
     @Id
@@ -38,10 +40,21 @@ public class Product {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
     @JsonProperty(access = Access.READ_ONLY)
+    @ToString.Exclude
     private Transaction transaction;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     @JsonProperty(access = Access.READ_ONLY)
     @JsonBackReference
     private List<Review> productReviews = new ArrayList<>();
+
+    // @Override
+    // public String toString(){
+    //     return "{"+
+    //         "'id' : " + id +
+    //         "'name' : '" + name + "'" +
+    //         "'description' : '" + description + "'" +
+    //         "'rating' : " + rating +
+    //      "}";
+    // }
 }

@@ -11,10 +11,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
 @NoArgsConstructor
+@ToString
 public class Review {
 
     @Id
@@ -29,9 +31,11 @@ public class Review {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
     @JsonProperty(access = Access.READ_ONLY)
+    @ToString.Exclude
     private Client client;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonManagedReference
+    @ToString.Exclude
     private Product product;
 }

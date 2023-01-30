@@ -19,10 +19,12 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Entity
 @NoArgsConstructor
+@ToString
 public class Transaction {
 
     @Id
@@ -43,5 +45,6 @@ public class Transaction {
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
     @JsonProperty(access = Access.READ_ONLY)
+    @ToString.Exclude
     private Client client;
 }

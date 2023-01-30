@@ -16,10 +16,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @Entity
+@ToString
 public class Company {
 
     @Id
@@ -40,6 +42,7 @@ public class Company {
     @JsonManagedReference
     @JsonProperty(access = Access.READ_ONLY)
     @JsonIgnore
+    @ToString.Exclude
     private List<Client> employeesWhoAreClients;
 
     private double discountPercentage;
