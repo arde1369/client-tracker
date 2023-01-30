@@ -8,13 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.astroitsolutions.clienttracker.Entity.Company;
 
+import lombok.NonNull;
+
 @RestController
 @RequestMapping("/api/company")
 public class CompanyControllerImpl implements CompanyController {
 
     @Override
     @PutMapping()
-    public Company addOrUpdateCompany(Company newCompany) {
+    public Company addOrUpdateCompany(@NonNull Company newCompany) {
         // TODO Auto-generated method stub
         return null;
     }

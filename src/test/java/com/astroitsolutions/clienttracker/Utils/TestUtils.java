@@ -20,7 +20,7 @@ public class TestUtils {
         mockClient.setId(1);
         mockClient.setFirstname("Arash");
         mockClient.setLastname("Dehdari");
-        mockClient.setCompany(createNewCompany(mockClient));
+        mockClient.setCompany(createNewMedSizeCompany(mockClient));
         mockClient.setAddress(createNewAddress());
         mockClient.setRating(5);
         mockClient.setTransactions(createTransactionList(mockClient));
@@ -174,7 +174,7 @@ public class TestUtils {
     /**
      * Helper method to create a company
      */
-    public Company createNewCompany(Client mockClient) {
+    public Company createNewMedSizeCompany(Client mockClient) {
         Company company = new Company();
         List<Client> listOfEmployees = new ArrayList<>();
         listOfEmployees.add(mockClient);
