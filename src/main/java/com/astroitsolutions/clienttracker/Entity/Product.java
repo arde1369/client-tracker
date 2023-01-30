@@ -47,14 +47,4 @@ public class Product {
     @JsonProperty(access = Access.READ_ONLY)
     @JsonBackReference
     private List<Review> productReviews = new ArrayList<>();
-
-    // @Override
-    // public String toString(){
-    //     return "{"+
-    //         "'id' : " + id +
-    //         "'name' : '" + name + "'" +
-    //         "'description' : '" + description + "'" +
-    //         "'rating' : " + rating +
-    //      "}";
-    // }
 }

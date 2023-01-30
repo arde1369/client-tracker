@@ -51,6 +51,16 @@ public class ClientTestUtils {
         return transactions;
     }
 
+    public Transaction createSingleTransaction(Client mockClient) {
+        Transaction t1 = new Transaction();
+        t1.setClient(mockClient);
+        t1.setId(10);
+        t1.setProducts(createProductList(t1, mockClient));
+        t1.setTotalPrice(200d);
+
+        return t1;
+    }
+
     /**
     * Helper method to create list of products
     */
@@ -100,6 +110,9 @@ public class ClientTestUtils {
         r2.setDescription("Good product!");
         r2.setRating(4);
         r2.setId(2);
+
+        mockClient.getReviews().add(r1);
+        mockClient.getReviews().add(r2);
 
         reviews.add(r1);
         reviews.add(r2);

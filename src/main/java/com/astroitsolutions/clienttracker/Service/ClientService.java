@@ -76,7 +76,7 @@ public class ClientService {
 
             retrievedClient.getReviews().add(review);
 
-            updateProductRatingFromReview(review.getProduct(), review.getRating());
+            updateProductRatingFromReview(review);
 
             clientRepository.save(retrievedClient);
             log.info("Successfully added review for client ID " + clientId);
@@ -88,12 +88,13 @@ public class ClientService {
     }
 
     //Helper method to update product rating from review
-    private void updateProductRatingFromReview(Product product, int rating) {
-        Optional<Product> retrievedProductOptional = productRepository.findById(product.getId());
+    private void updateProductRatingFromReview(Review review) {
+        Optional<Product> retrievedProductOptional = productRepository.findById(review.getProduct().getId());
         Product retrievedProduct = retrievedProductOptional.get();
 
-        int calculatedRating = RatingCalculator.calculate(rating, retrievedProduct.getRating());
+        int calculatedRating = RatingCalculator.calculate(review.getRating(), retrievedProduct.getRating());
         retrievedProduct.setRating(calculatedRating);
+        retrievedProduct.getProductReviews().add(review);
 
         productRepository.save(retrievedProduct);
     }
@@ -148,20 +149,22 @@ public class ClientService {
         return results;
     }
 
-    public void addTransactionForClientByFirstnameAndLastname(String firstname, String lastname, Transaction transaction){
+    public boolean addTransactionForClientByFirstnameAndLastname(String firstname, String lastname, Transaction transaction){
         log.debug("Adding transaction " + transaction + " by firsname - " + firstname +", and lastname - " + lastname);
 
         Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
-
+        boolean results = false;
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
             retrievedClient.getTransactions().add(transaction);
 
             clientRepository.save(retrievedClient);
+            results = true;
             log.info("Successfully Added transaction for client by firsname - " + firstname +", and lastname - " + lastname);
         } else {
             log.info("Unable to Add transaction. No client found by firsname - " + firstname +", and lastname - " + lastname);
         }
+        return results;
     }
 
     public List<Transaction> getTransactionsByClientById(int id){
