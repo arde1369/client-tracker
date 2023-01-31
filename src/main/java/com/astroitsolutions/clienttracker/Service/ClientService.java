@@ -73,6 +73,7 @@ public class ClientService {
         boolean results = false;
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
+            review.setClient(retrievedClient);
 
             retrievedClient.getReviews().add(review);
 
@@ -139,6 +140,7 @@ public class ClientService {
             log.info("Successfully retrieved transactions for client ID " + id);
 
             retrievedClient.getTransactions().add(transaction);
+            transaction.setClient(retrievedClient);
 
             clientRepository.save(retrievedClient);
             results = true;
@@ -157,6 +159,7 @@ public class ClientService {
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
             retrievedClient.getTransactions().add(transaction);
+            transaction.setClient(retrievedClient);
 
             clientRepository.save(retrievedClient);
             results = true;
