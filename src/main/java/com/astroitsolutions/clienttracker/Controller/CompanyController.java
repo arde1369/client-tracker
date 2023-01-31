@@ -1,5 +1,8 @@
 package com.astroitsolutions.clienttracker.Controller;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import com.astroitsolutions.clienttracker.Entity.Company;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -19,7 +22,7 @@ public interface CompanyController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public Company addOrUpdateCompany(Company newCompany);
+    public ResponseEntity<Company> addOrUpdateCompany(Company newCompany);
 
     @Operation(
         summary = "",
@@ -31,7 +34,7 @@ public interface CompanyController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public Company getCompanyById(int id);
+    public ResponseEntity<Company> getCompanyById(int id);
 
     @Operation(
         summary = "",
@@ -43,7 +46,7 @@ public interface CompanyController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public Company getCompanyByName(String name);
+    public ResponseEntity<Company> getCompanyByName(String name);
 
     @Operation(
         summary = "",
@@ -55,7 +58,7 @@ public interface CompanyController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public void deleteCompanyById(int id);
+    public ResponseEntity<HttpStatus> deleteCompanyById(int id);
 
     @Operation(
         summary = "",
@@ -67,5 +70,5 @@ public interface CompanyController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public void deleteCompanyByName(String name);
+    public ResponseEntity<HttpStatus> deleteCompanyByName(String name);
 }
