@@ -2,6 +2,8 @@ package com.astroitsolutions.clienttracker.Service;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -63,5 +65,57 @@ public class CompanyServiceTest {
         assertNotNull(addedCompany);
         assertEquals(addedCompany, mockCompany);
         assertEquals(CompanySize.L, addedCompany.getCompanySize());
+    }
+
+    @Test
+    public void getCompanyById_success(){
+        Company mockCompany = testUtils.createNewMedSizeCompany(null);
+        Optional<Company> companyOptional = Optional.of(mockCompany);
+
+        Mockito.when(companyRepository.findById(mockCompany.getId())).thenReturn(companyOptional);
+
+        Company retreivedCompany = companyService.getCompanyById(mockCompany.getId());
+
+        assertNotNull(retreivedCompany);
+        assertEquals(retreivedCompany, mockCompany);
+    }
+
+    @Test
+    public void getCompanyByName_success(){
+        Company mockCompany = testUtils.createNewMedSizeCompany(null);
+        Optional<Company> companyOptional = Optional.of(mockCompany);
+
+        Mockito.when(companyRepository.findByName(mockCompany.getName())).thenReturn(companyOptional);
+
+        Company retreivedCompany = companyService.getCompanyByName(mockCompany.getName());
+
+        assertNotNull(retreivedCompany);
+        assertEquals(retreivedCompany, mockCompany);
+    }
+
+    @Test
+    public void getCompanyById_null_noCompanyFoundByID(){
+        Company mockCompany = testUtils.createNewMedSizeCompany(null);
+        Optional<Company> companyOptional = Optional.of(mockCompany);
+
+        Mockito.when(companyRepository.findById(mockCompany.getId())).thenReturn(companyOptional);
+
+        Company retreivedCompany = companyService.getCompanyById(mockCompany.getId());
+
+        assertNotNull(retreivedCompany);
+        assertEquals(retreivedCompany, mockCompany);
+    }
+
+    @Test
+    public void getCompanyByName_null_noCompanyFoundByName(){
+        Company mockCompany = testUtils.createNewMedSizeCompany(null);
+        Optional<Company> companyOptional = Optional.of(mockCompany);
+
+        Mockito.when(companyRepository.findByName(mockCompany.getName())).thenReturn(companyOptional);
+
+        Company retreivedCompany = companyService.getCompanyByName(mockCompany.getName());
+
+        assertNotNull(retreivedCompany);
+        assertEquals(retreivedCompany, mockCompany);
     }
 }

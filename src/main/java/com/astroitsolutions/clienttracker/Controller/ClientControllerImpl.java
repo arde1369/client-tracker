@@ -248,7 +248,7 @@ public class ClientControllerImpl implements ClientController {
     }
 
     @Override
-    @GetMapping("/rating/{firstname}/{lastname}/{rating}")
+    @PutMapping("/rating/{firstname}/{lastname}/{rating}")
     public ResponseEntity<HttpStatus> updateRatingForClientByFirstnameAndLastname(@PathVariable String firstname, @PathVariable String lastname, @PathVariable int rating) {
         boolean results = false;
         try{

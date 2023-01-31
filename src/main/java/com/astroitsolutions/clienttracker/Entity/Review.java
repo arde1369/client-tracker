@@ -30,8 +30,8 @@ public class Review {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
-    @JsonProperty(access = Access.READ_ONLY)
     @ToString.Exclude
+    @JsonProperty(access = Access.READ_ONLY)
     private Client client;
 
     @ManyToOne(cascade = CascadeType.ALL)

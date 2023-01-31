@@ -39,8 +39,8 @@ public class Product {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
-    @JsonProperty(access = Access.READ_ONLY)
     @ToString.Exclude
+    @JsonProperty(access = Access.READ_ONLY)
     private Transaction transaction;
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)

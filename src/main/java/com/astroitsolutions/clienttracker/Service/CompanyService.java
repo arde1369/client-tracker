@@ -1,5 +1,7 @@
 package com.astroitsolutions.clienttracker.Service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,38 @@ public class CompanyService {
         Company addedCompany = companyRepository.save(newCompany);
 
         return addedCompany;
+    }
+
+    public Company getCompanyById(int id){
+        log.debug("Retrieving Company by ID: " + String.valueOf(id));
+
+        Optional<Company> retrievedCompanyOptional = companyRepository.findById(id);
+
+        if(retrievedCompanyOptional.isPresent()){
+            Company retrievedCompany = retrievedCompanyOptional.get();
+            log.info("Successfully retrieved client by ID: " + retrievedCompany);
+            return retrievedCompany;
+        } 
+            
+        log.debug("Unable to retrieve client by ID: " + String.valueOf(id));
+        
+        return null;
+    }
+
+    public Company getCompanyByName(String name){
+        log.debug("Retrieving Company by name: " + name);
+
+        Optional<Company> retrievedCompanyOptional = companyRepository.findByName(name);
+
+        if(retrievedCompanyOptional.isPresent()){
+            Company retrievedCompany = retrievedCompanyOptional.get();
+            log.info("Successfully retrieved client by ID: " + retrievedCompany);
+            return retrievedCompany;
+        } 
+            
+        log.debug("Unable to retrieve client by ID: " + name);
+        
+        return null;
     }
 
     public void deleteCompanyById(int id){
