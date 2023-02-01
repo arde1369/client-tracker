@@ -2,6 +2,9 @@ package com.astroitsolutions.clienttracker.Controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
 import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
 
@@ -22,7 +25,7 @@ public interface ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public Product addProduct(Product product);
+    public ResponseEntity<Product> addProduct(Product product);
 
     @Operation(
         summary = "",
@@ -34,7 +37,7 @@ public interface ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public Product findProductById(int id);
+    public ResponseEntity<Product> findProductById(int id);
 
     @Operation(
         summary = "",
@@ -46,7 +49,7 @@ public interface ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public Product findProductByName(String name);
+    public ResponseEntity<Product> findProductByName(String name);
 
     @Operation(
         summary = "",
@@ -58,7 +61,7 @@ public interface ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public List<Review> retrieveAllReviewsForProductById(int id);
+    public ResponseEntity<List<Review>> retrieveAllReviewsForProductById(int id);
 
     @Operation(
         summary = "",
@@ -70,7 +73,7 @@ public interface ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public List<Review> retrieveAllReviewsForProductByName(String name );
+    public ResponseEntity<List<Review>> retrieveAllReviewsForProductByName(String name );
 
     @Operation(
         summary = "",
@@ -82,7 +85,7 @@ public interface ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public void deleteProductById(int id);
+    public ResponseEntity<HttpStatus> deleteProductById(int id);
 
     @Operation(
         summary = "",
@@ -94,5 +97,5 @@ public interface ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public void deleteProductByName(String name);
+    public ResponseEntity<HttpStatus> deleteProductByName(String name);
 }

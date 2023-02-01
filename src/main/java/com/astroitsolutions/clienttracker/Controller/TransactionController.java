@@ -3,6 +3,8 @@ package com.astroitsolutions.clienttracker.Controller;
 import java.text.ParseException;
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,5 +24,5 @@ public interface TransactionController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public List<Transaction> findAllTransactionsByCreatedTimeStamp(String start, String end) throws ParseException;
+    public ResponseEntity<List<Transaction>> findAllTransactionsByCreatedTimeStamp(String start, String end) throws ParseException;
 }
