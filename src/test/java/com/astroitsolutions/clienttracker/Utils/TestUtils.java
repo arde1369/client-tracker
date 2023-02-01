@@ -1,13 +1,10 @@
 package com.astroitsolutions.clienttracker.Utils;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import com.astroitsolutions.clienttracker.Entity.Address;
 import com.astroitsolutions.clienttracker.Entity.Client;
