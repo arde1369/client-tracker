@@ -34,7 +34,7 @@ public class TransactionControllerImpl implements TransactionController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }

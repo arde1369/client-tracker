@@ -37,4 +37,8 @@ mvnw
 mvnw.cmd
 .mvn/
 
+### test related ###
 /src/test/resources/
+
+### environment related ###
+.env

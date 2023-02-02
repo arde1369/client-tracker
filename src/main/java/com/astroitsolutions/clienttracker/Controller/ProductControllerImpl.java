@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,11 +39,11 @@ public class ProductControllerImpl implements ProductController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
-        return ResponseEntity.ok(addedProduct);
+        return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(addedProduct);
     }
 
     @Override
@@ -61,7 +62,7 @@ public class ProductControllerImpl implements ProductController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -84,7 +85,7 @@ public class ProductControllerImpl implements ProductController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -107,7 +108,7 @@ public class ProductControllerImpl implements ProductController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -130,7 +131,7 @@ public class ProductControllerImpl implements ProductController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -153,7 +154,7 @@ public class ProductControllerImpl implements ProductController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -176,7 +177,7 @@ public class ProductControllerImpl implements ProductController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -199,7 +200,7 @@ public class ProductControllerImpl implements ProductController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -222,7 +223,7 @@ public class ProductControllerImpl implements ProductController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }

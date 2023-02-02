@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import com.astroitsolutions.clienttracker.Entity.Client;
 import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
@@ -41,17 +40,11 @@ public class ClientControllerImpl implements ClientController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
-        return ResponseEntity
-            .created(ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/api/client")
-                    .buildAndExpand(addedClient)
-                    .toUri())
-                    .build();
+        return ResponseEntity.status(HttpStatusCode.valueOf(201)).body(addedClient);
     }
 
     @Override
@@ -70,7 +63,7 @@ public class ClientControllerImpl implements ClientController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -93,7 +86,7 @@ public class ClientControllerImpl implements ClientController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -115,17 +108,11 @@ public class ClientControllerImpl implements ClientController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
-        return ResponseEntity
-            .created(ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/api/client")
-                    .buildAndExpand(review)
-                    .toUri())
-                    .build();
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @Override
@@ -145,7 +132,7 @@ public class ClientControllerImpl implements ClientController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -168,7 +155,7 @@ public class ClientControllerImpl implements ClientController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -190,17 +177,11 @@ public class ClientControllerImpl implements ClientController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
-        return ResponseEntity
-            .created(ServletUriComponentsBuilder
-                    .fromCurrentRequest()
-                    .path("/api/client")
-                    .buildAndExpand(transaction)
-                    .toUri())
-                    .build();
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @Override
@@ -219,7 +200,7 @@ public class ClientControllerImpl implements ClientController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -242,7 +223,7 @@ public class ClientControllerImpl implements ClientController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -258,7 +239,7 @@ public class ClientControllerImpl implements ClientController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
@@ -277,7 +258,7 @@ public class ClientControllerImpl implements ClientController {
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
-                .badRequest()
+                .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
