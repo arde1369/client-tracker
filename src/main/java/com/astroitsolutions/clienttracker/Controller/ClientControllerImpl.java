@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.astroitsolutions.clienttracker.Entity.Client;
 import com.astroitsolutions.clienttracker.Entity.Review;
@@ -31,7 +34,7 @@ public class ClientControllerImpl implements ClientController {
 
     @Override
     @PostMapping()
-    public ResponseEntity<Client> addClient(@NonNull Client client) {
+    public ResponseEntity<Client> addClient(@NonNull @RequestBody Client client) {
         Client addedClient = null;
         try{
             addedClient = clientService.addClient(client);
@@ -42,12 +45,18 @@ public class ClientControllerImpl implements ClientController {
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
-        return ResponseEntity.ok(addedClient);
+        return ResponseEntity
+            .created(ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/api/client")
+                    .buildAndExpand(addedClient)
+                    .toUri())
+                    .build();
     }
 
     @Override
-    @GetMapping("/{id}")
-    public ResponseEntity<Client> retrieveClientById(@PathVariable int id) {
+    @GetMapping("/id")
+    public ResponseEntity<Client> retrieveClientById(@RequestParam int id) {
         Client retrievedClient = null;
         try{
             retrievedClient = clientService.retrieveClientById(id);
@@ -93,7 +102,7 @@ public class ClientControllerImpl implements ClientController {
 
     @Override
     @PostMapping("/reviews")
-    public ResponseEntity<HttpStatus> addReviewForProductByClientId(int clientId, @NonNull Review review) {
+    public ResponseEntity<HttpStatus> addReviewForProductByClientId(@RequestParam int clientId, @NonNull @RequestBody Review review) {
         try{
             boolean results = clientService.addReviewForProductByClientId(clientId, review);
             if(results == false){
@@ -110,12 +119,18 @@ public class ClientControllerImpl implements ClientController {
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity
+            .created(ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/api/client")
+                    .buildAndExpand(review)
+                    .toUri())
+                    .build();
     }
 
     @Override
-    @GetMapping("/reviews/{id}")
-    public ResponseEntity<List<Review>> getReviewsAddedByClientById(@PathVariable int id) {
+    @GetMapping("/reviews/id")
+    public ResponseEntity<List<Review>> getReviewsAddedByClientById(@RequestParam int id) {
         
         List<Review> retrievedClientReviews = null;
         try{
@@ -162,7 +177,7 @@ public class ClientControllerImpl implements ClientController {
 
     @Override
     @PostMapping("/transactions")
-    public ResponseEntity<HttpStatus> addTransactionForClientById(int clientId, @NonNull Transaction transaction) {
+    public ResponseEntity<HttpStatus> addTransactionForClientById(int clientId, @NonNull @RequestBody Transaction transaction) {
         try{
             boolean results = clientService.addTransactionForClientById(clientId, transaction);
             if(results == false){
@@ -179,12 +194,18 @@ public class ClientControllerImpl implements ClientController {
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
         }
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity
+            .created(ServletUriComponentsBuilder
+                    .fromCurrentRequest()
+                    .path("/api/client")
+                    .buildAndExpand(transaction)
+                    .toUri())
+                    .build();
     }
 
     @Override
-    @GetMapping("/transactions/{id}")
-    public ResponseEntity<List<Transaction>> getTransactionsByClientById(@PathVariable int id) {
+    @GetMapping("/transactions/id")
+    public ResponseEntity<List<Transaction>> getTransactionsByClientById(@RequestParam int id) {
         List<Transaction> retrievedClientTransactions = null;
         try{
             retrievedClientTransactions = clientService.getTransactionsByClientById(id);
@@ -266,17 +287,17 @@ public class ClientControllerImpl implements ClientController {
                                                                 .body(null));
     }
 
-    @Override
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteClientById(int id) {
-        clientService.deleteClientById(id);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
+    // @Override
+    // @DeleteMapping("/delete/id")
+    // public ResponseEntity<HttpStatus> deleteClientById(@RequestParam int id) {
+    //     clientService.deleteClientById(id);
+    //     return ResponseEntity.ok(HttpStatus.OK);
+    // }
 
-    @Override
-    @DeleteMapping("/delete/{firstname}/{lastname}")
-    public ResponseEntity<HttpStatus> deleteClientByFirstAndLastname(@PathVariable String firstname, @PathVariable String lastname) {
-        clientService.deleteClientByFirstAndLastname(firstname, lastname);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
+    // @Override
+    // @DeleteMapping("/delete/{firstname}/{lastname}")
+    // public ResponseEntity<HttpStatus> deleteClientByFirstAndLastname(@PathVariable String firstname, @PathVariable String lastname) {
+    //     clientService.deleteClientByFirstAndLastname(firstname, lastname);
+    //     return ResponseEntity.ok(HttpStatus.OK);
+    // }
 }

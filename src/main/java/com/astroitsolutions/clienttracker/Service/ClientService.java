@@ -246,13 +246,13 @@ public class ClientService {
         return results;
     }
 
-    public void deleteClientById(int id){
-        log.info("Removing client by ID: " + id);
-        clientRepository.deleteById(id);
-    }
+    // public void deleteClientById(int id){
+    //     log.info("Removing client by ID: " + id);
+    //     clientRepository.deleteById(id);
+    // }
 
-    public void deleteClientByFirstAndLastname(String firstname, String lastname){
-        log.info("Removing client by firsname - " + firstname +", and lastname - " + lastname);
-        clientRepository.deleteByFirstnameAndLastname(firstname, lastname);
-    }
+    // public void deleteClientByFirstAndLastname(String firstname, String lastname){
+    //     log.info("Removing client by firsname - " + firstname +", and lastname - " + lastname);
+    //     clientRepository.deleteByFirstnameAndLastname(firstname, lastname);
+    // }
 }

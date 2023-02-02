@@ -6,9 +6,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.astroitsolutions.clienttracker.Entity.Company;
@@ -26,7 +28,7 @@ public class CompanyControllerImpl implements CompanyController {
 
     @Override
     @PutMapping()
-    public ResponseEntity<Company> addOrUpdateCompany(@NonNull Company newCompany) {
+    public ResponseEntity<Company> addOrUpdateCompany(@NonNull @RequestBody Company newCompany) {
         Company addedCompany = null;
         try{
             addedCompany = companyService.addOrUpdateCompany(newCompany);
@@ -41,8 +43,8 @@ public class CompanyControllerImpl implements CompanyController {
     }
 
     @Override
-    @GetMapping("{id}")
-    public ResponseEntity<Company> getCompanyById(int id) {
+    @GetMapping("/id")
+    public ResponseEntity<Company> getCompanyById(@RequestParam int id) {
         Company retrievedCompany = null;
         try{
             retrievedCompany = companyService.getCompanyById(id);
@@ -64,8 +66,8 @@ public class CompanyControllerImpl implements CompanyController {
     }
 
     @Override
-    @GetMapping("{name}")
-    public ResponseEntity<Company> getCompanyByName(String name) {
+    @GetMapping("/name")
+    public ResponseEntity<Company> getCompanyByName(@RequestParam String name) {
         Company retrievedCompany = null;
         try{
             retrievedCompany = companyService.getCompanyByName(name);
@@ -87,17 +89,40 @@ public class CompanyControllerImpl implements CompanyController {
     }
 
     @Override
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteCompanyById(@PathVariable int id) {
-        companyService.deleteCompanyById(id);
+    @PostMapping("/client")
+    public ResponseEntity<HttpStatus> addClientToCompany(@RequestParam int clientId, @RequestParam int companyId) {
+        boolean resultsOfOperation = false;
+        try{
+            resultsOfOperation = companyService.addClientToCompany(clientId, companyId);
+            if(resultsOfOperation == false){
+                log.error("Unable to perform operations. Please contact system administrator for further troubleshooting.");
+                return ResponseEntity
+                .badRequest()
+                .header("error-message", HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .body(null);
+            }
+        } catch(Exception ex){
+            log.error("Unexpected error occurred - ", ex);
+                return ResponseEntity
+                .badRequest()
+                .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
+                .body(null);
+        }
         return ResponseEntity.ok(HttpStatus.OK);
-        
     }
 
-    @Override
-    @DeleteMapping("/delete/{name}")
-    public ResponseEntity<HttpStatus> deleteCompanyByName(@PathVariable String name) {
-        companyService.deleteCompanyByName(name);
-        return ResponseEntity.ok(HttpStatus.OK);
-    }
+    // @Override
+    // @DeleteMapping("/delete/id")
+    // public ResponseEntity<HttpStatus> deleteCompanyById(@RequestParam int id) {
+    //     companyService.deleteCompanyById(id);
+    //     return ResponseEntity.ok(HttpStatus.OK);
+        
+    // }
+
+    // @Override
+    // @DeleteMapping("/delete/name")
+    // public ResponseEntity<HttpStatus> deleteCompanyByName(@RequestParam String name) {
+    //     companyService.deleteCompanyByName(name);
+    //     return ResponseEntity.ok(HttpStatus.OK);
+    // }
 }

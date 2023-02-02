@@ -33,6 +33,8 @@ public class Product {
     private String name;
 
     private String description;
+
+    private boolean isActive = true;
     
     @JsonProperty(access = Access.READ_ONLY)
     private int rating;

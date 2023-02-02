@@ -2,8 +2,8 @@ package com.astroitsolutions.clienttracker.Entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -39,7 +39,7 @@ public class Company {
 
     // Employees of this company are clients of the business.
     @OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonBackReference
     @JsonProperty(access = Access.READ_ONLY)
     @JsonIgnore
     @ToString.Exclude

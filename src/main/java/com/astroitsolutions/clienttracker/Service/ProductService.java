@@ -92,13 +92,92 @@ public class ProductService {
         return null;
     }
 
-    public void deleteProductById(int id){
-        log.debug("Deleting product by id: " + id);
-        productRepository.deleteById(id);
+    public Product activateProductById(int productId){
+        log.debug("Activating product by id: " + productId);
+
+        Optional<Product> retrievedProductOptional = productRepository.findById(productId);
+        Product retrievedProduct = null;
+
+        if(retrievedProductOptional.isPresent()){
+            retrievedProduct = retrievedProductOptional.get();
+
+            retrievedProduct.setActive(true);
+
+            log.info("Successfully activated product by id: " + productId);
+            return retrievedProduct;
+        }
+        
+        log.debug("Unable to activate product by id: " + productId);
+        
+        return retrievedProduct;
     }
 
-    public void deleteProductByName(String name){
-        log.debug("Deleting product by name: " + name);
-        productRepository.deleteByName(name);
+    public Product deactivateProductById(int productId){
+        log.debug("Deactivating product by id: " + productId);
+
+        Optional<Product> retrievedProductOptional = productRepository.findById(productId);
+        Product retrievedProduct = null;
+
+        if(retrievedProductOptional.isPresent()){
+            retrievedProduct = retrievedProductOptional.get();
+
+            retrievedProduct.setActive(false);
+
+            log.info("Successfully deactivated product by id: " + productId);
+            return retrievedProduct;
+        }
+        
+        log.debug("Unable to deactivate product by id: " + productId);
+        
+        return retrievedProduct;
     }
+
+    public Product activateProductByName(String name){
+        log.debug("Activating product by name: " + name);
+
+        Optional<Product> retrievedProductOptional = productRepository.findByName(name);
+        Product retrievedProduct = null;
+
+        if(retrievedProductOptional.isPresent()){
+            retrievedProduct = retrievedProductOptional.get();
+
+            retrievedProduct.setActive(true);
+
+            log.info("Successfully activated product by id: " + name);
+            return retrievedProduct;
+        }
+        
+        log.debug("Unable to activate product by id: " + name);
+        
+        return retrievedProduct;
+    }
+
+    public Product deactivateProductByName(String name){
+        log.debug("Deactivating product by name: " + name);
+
+        Optional<Product> retrievedProductOptional = productRepository.findByName(name);
+        Product retrievedProduct = null;
+        if(retrievedProductOptional.isPresent()){
+            retrievedProduct = retrievedProductOptional.get();
+
+            retrievedProduct.setActive(false);
+
+            log.info("Successfully deactivated product by name: " + name);
+            return retrievedProduct;
+        }
+        
+        log.debug("Unable to deactivate product by name: " + name);
+        
+        return retrievedProduct;
+    }
+
+    // public void deleteProductById(int id){
+    //     log.debug("Deleting product by id: " + id);
+    //     productRepository.deleteById(id);
+    // }
+
+    // public void deleteProductByName(String name){
+    //     log.debug("Deleting product by name: " + name);
+    //     productRepository.deleteByName(name);
+    // }
 }

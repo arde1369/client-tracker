@@ -160,27 +160,27 @@ public interface ClientController {
         })
     public ResponseEntity<HttpStatus> updateRatingForClientByFirstnameAndLastname(String firstname, String lastname, int rating);
 
-    @Operation(
-        summary = "Delete client specified by the given course ID",
-        description = "Delete client specified by the given course ID",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Successful Operation"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
-        })
-    public ResponseEntity<HttpStatus> deleteClientById(int id);
+    // @Operation(
+    //     summary = "Delete client specified by the given course ID",
+    //     description = "Delete client specified by the given course ID",
+    //     responses = {
+    //         @ApiResponse(responseCode = "200", description = "Successful Operation"),
+    //         @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
+    //         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = String.class))),
+    //         @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
+    //         @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
+    //     })
+    // public ResponseEntity<HttpStatus> deleteClientById(int id);
 
-    @Operation(
-        summary = "Delete client specified by the given course ID",
-        description = "Delete client specified by the given course ID",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Successful Operation"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
-        })
-    public ResponseEntity<HttpStatus> deleteClientByFirstAndLastname(String firstname, String lastname);
+    // @Operation(
+    //     summary = "Delete client specified by the given course ID",
+    //     description = "Delete client specified by the given course ID",
+    //     responses = {
+    //         @ApiResponse(responseCode = "200", description = "Successful Operation"),
+    //         @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
+    //         @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = String.class))),
+    //         @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
+    //         @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
+    //     })
+    // public ResponseEntity<HttpStatus> deleteClientByFirstAndLastname(String firstname, String lastname);
 }

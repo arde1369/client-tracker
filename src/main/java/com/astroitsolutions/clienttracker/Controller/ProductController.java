@@ -85,7 +85,7 @@ public interface ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public ResponseEntity<HttpStatus> deleteProductById(int id);
+    public ResponseEntity<Product> activateProductById(int productId);
 
     @Operation(
         summary = "",
@@ -97,5 +97,53 @@ public interface ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public ResponseEntity<HttpStatus> deleteProductByName(String name);
+    public ResponseEntity<Product> deactivateProductById(int productId);
+
+    @Operation(
+        summary = "",
+        description = "",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Successful Operation"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
+        })
+    public ResponseEntity<Product> activateProductByName(String name);
+
+    @Operation(
+        summary = "",
+        description = "",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Successful Operation"),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
+        })
+    public ResponseEntity<Product> deactivateProductByName(String name);
+
+//     @Operation(
+//         summary = "",
+//         description = "",
+//         responses = {
+//             @ApiResponse(responseCode = "200", description = "Successful Operation"),
+//             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
+//             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = String.class))),
+//             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
+//             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
+//         })
+//     public ResponseEntity<HttpStatus> deleteProductById(int id);
+
+//     @Operation(
+//         summary = "",
+//         description = "",
+//         responses = {
+//             @ApiResponse(responseCode = "200", description = "Successful Operation"),
+//             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
+//             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = String.class))),
+//             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
+//             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
+//         })
+//     public ResponseEntity<HttpStatus> deleteProductByName(String name);
 }

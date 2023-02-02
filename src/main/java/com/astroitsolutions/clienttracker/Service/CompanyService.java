@@ -5,7 +5,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.astroitsolutions.clienttracker.Entity.Client;
 import com.astroitsolutions.clienttracker.Entity.Company;
+import com.astroitsolutions.clienttracker.Repository.ClientRepository;
 import com.astroitsolutions.clienttracker.Repository.CompanyRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -17,12 +19,45 @@ public class CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private ClientRepository clientRepository;
+
     public Company addOrUpdateCompany(Company newCompany){
         log.debug("Adding/updating company: " + newCompany.toString());
 
         Company addedCompany = companyRepository.save(newCompany);
 
         return addedCompany;
+    }
+
+    public boolean addClientToCompany(int clientId, int companyId){
+        boolean resultOfOperation = false;
+        
+        Optional<Client> clientOptional = clientRepository.findById(clientId);
+        Optional<Company> companyOptional = companyRepository.findById(companyId);
+
+        if(!clientOptional.isPresent()){
+            log.info("Unable to find client by the ID provided - ", clientId);
+            return resultOfOperation;
+        }
+
+        if(!companyOptional.isPresent()){
+            log.info("Unable to find company by the ID provided - ", companyId);
+            return resultOfOperation;
+        }
+
+        Client clientToUpdate = clientOptional.get();
+        Company companyToUpdate = companyOptional.get();
+
+        clientToUpdate.setCompany(companyToUpdate);
+        companyToUpdate.getEmployeesWhoAreClients().add(clientToUpdate);
+
+        clientRepository.save(clientToUpdate);
+        companyRepository.save(companyToUpdate);
+
+        resultOfOperation = true;
+
+        return resultOfOperation;
     }
 
     public Company getCompanyById(int id){
@@ -32,11 +67,11 @@ public class CompanyService {
 
         if(retrievedCompanyOptional.isPresent()){
             Company retrievedCompany = retrievedCompanyOptional.get();
-            log.info("Successfully retrieved client by ID: " + retrievedCompany);
+            log.info("Successfully retrieved Company by ID: " + retrievedCompany);
             return retrievedCompany;
         } 
             
-        log.debug("Unable to retrieve client by ID: " + String.valueOf(id));
+        log.debug("Unable to retrieve Company by ID: " + String.valueOf(id));
         
         return null;
     }
@@ -48,22 +83,22 @@ public class CompanyService {
 
         if(retrievedCompanyOptional.isPresent()){
             Company retrievedCompany = retrievedCompanyOptional.get();
-            log.info("Successfully retrieved client by ID: " + retrievedCompany);
+            log.info("Successfully retrieved Company by ID: " + retrievedCompany);
             return retrievedCompany;
         } 
             
-        log.debug("Unable to retrieve client by ID: " + name);
+        log.debug("Unable to retrieve Company by ID: " + name);
         
         return null;
     }
 
-    public void deleteCompanyById(int id){
-        log.info("Removing client by ID: " + id);
-        companyRepository.deleteById(id);
-    }
+    // public void deleteCompanyById(int id){
+    //     log.info("Removing Company by ID: " + id);
+    //     companyRepository.deleteById(id);
+    // }
 
-    public void deleteCompanyByName(String name){
-        log.info("Removing client by name: " + name);
-        companyRepository.deleteByName(name);
-    }
+    // public void deleteCompanyByName(String name){
+    //     log.info("Removing Company by name: " + name);
+    //     companyRepository.deleteByName(name);
+    // }
 }

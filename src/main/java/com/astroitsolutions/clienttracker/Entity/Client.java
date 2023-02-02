@@ -55,6 +55,7 @@ public class Client {
     private List<Transaction> transactions = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
+    @JsonProperty(access = Access.READ_ONLY)
     private Company company;
 }
