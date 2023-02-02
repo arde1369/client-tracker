@@ -37,7 +37,7 @@ public class Product {
     private boolean isActive = true;
     
     @JsonProperty(access = Access.READ_ONLY)
-    private int rating;
+    private int rating = 0;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference

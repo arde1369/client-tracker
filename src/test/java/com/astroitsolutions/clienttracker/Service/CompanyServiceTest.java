@@ -1,6 +1,7 @@
 package com.astroitsolutions.clienttracker.Service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
 
 import java.util.Optional;
 
@@ -13,8 +14,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.astroitsolutions.clienttracker.Entity.Client;
 import com.astroitsolutions.clienttracker.Entity.Company;
 import com.astroitsolutions.clienttracker.Entity.CompanySize;
+import com.astroitsolutions.clienttracker.Repository.ClientRepository;
 import com.astroitsolutions.clienttracker.Repository.CompanyRepository;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
@@ -29,6 +32,9 @@ public class CompanyServiceTest {
 
     @Mock
     private CompanyRepository companyRepository;
+
+    @Mock
+    private ClientRepository clientRepository;
 
     TestUtils testUtils = new TestUtils();
     
@@ -96,26 +102,56 @@ public class CompanyServiceTest {
     @Test
     public void getCompanyById_null_noCompanyFoundByID(){
         Company mockCompany = testUtils.createNewMedSizeCompany(null);
-        Optional<Company> companyOptional = Optional.of(mockCompany);
+        Optional<Company> companyOptional = Optional.empty();
 
         Mockito.when(companyRepository.findById(mockCompany.getId())).thenReturn(companyOptional);
 
         Company retreivedCompany = companyService.getCompanyById(mockCompany.getId());
 
-        assertNotNull(retreivedCompany);
-        assertEquals(retreivedCompany, mockCompany);
+        assertNull(retreivedCompany);
     }
 
     @Test
     public void getCompanyByName_null_noCompanyFoundByName(){
         Company mockCompany = testUtils.createNewMedSizeCompany(null);
-        Optional<Company> companyOptional = Optional.of(mockCompany);
+        Optional<Company> companyOptional = Optional.empty();
 
         Mockito.when(companyRepository.findByName(mockCompany.getName())).thenReturn(companyOptional);
 
         Company retreivedCompany = companyService.getCompanyByName(mockCompany.getName());
 
-        assertNotNull(retreivedCompany);
-        assertEquals(retreivedCompany, mockCompany);
+        assertNull(retreivedCompany);
+    }
+
+    @Test 
+    public void addClientToCompany_success(){
+        Company mockCompany = testUtils.createNewMedSizeCompany(null);
+        Optional<Company> companyOptional = Optional.of(mockCompany);
+
+        Client mockClient = testUtils.createNewCompleteClient();
+        Optional<Client> clientOptional = Optional.of(mockClient);
+
+        Mockito.when(companyRepository.findById(anyInt())).thenReturn(companyOptional);
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(clientOptional);
+
+        assertTrue(companyService.addClientToCompany(0, 0));
+    }
+
+    @Test 
+    public void addClientToCompany_clientNotPresent(){
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        assertFalse(companyService.addClientToCompany(0, 0));
+    }
+
+    @Test 
+    public void addClientToCompany_companyNotPresent(){
+        Client mockClient = testUtils.createNewCompleteClient();
+        Optional<Client> clientOptional = Optional.of(mockClient);
+
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(clientOptional);
+        Mockito.when(companyRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        assertFalse(companyService.addClientToCompany(0, 0));
     }
 }

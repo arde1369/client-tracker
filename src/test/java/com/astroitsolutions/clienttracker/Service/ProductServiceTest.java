@@ -2,6 +2,8 @@ package com.astroitsolutions.clienttracker.Service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import java.util.List;
 import java.util.Optional;
@@ -136,5 +138,97 @@ public class ProductServiceTest {
         List<Review> reviewsList = productService.retrieveAllReviewsForProductByName(mockproduct.getName());
 
         assertNull(reviewsList);
+    }
+
+    @Test
+    public void activateProductById_success(){
+        Product mockproduct = clientTestUtils.createSingleProduct();
+
+        Mockito.when(productRepository.findById(anyInt())).thenReturn(Optional.of(mockproduct));
+
+        Product retreivedProduct = productService.activateProductById(mockproduct.getId());
+
+        assertNotNull(retreivedProduct);
+        assertEquals(mockproduct, retreivedProduct);
+    }
+
+    @Test
+    public void deactivateProductById_success(){
+        Product mockproduct = clientTestUtils.createSingleProduct();
+
+        Mockito.when(productRepository.findById(anyInt())).thenReturn(Optional.of(mockproduct));
+
+        Product retreivedProduct = productService.deactivateProductById(mockproduct.getId());
+
+        assertNotNull(retreivedProduct);
+        assertEquals(mockproduct, retreivedProduct);
+    }
+
+    @Test
+    public void activateProductByName_success(){
+        Product mockproduct = clientTestUtils.createSingleProduct();
+
+        Mockito.when(productRepository.findByName(anyString())).thenReturn(Optional.of(mockproduct));
+
+        Product retreivedProduct = productService.activateProductByName(mockproduct.getName());
+
+        assertNotNull(retreivedProduct);
+        assertEquals(mockproduct, retreivedProduct);
+    }
+
+    @Test
+    public void deactivateProductByName_success(){
+        Product mockproduct = clientTestUtils.createSingleProduct();
+
+        Mockito.when(productRepository.findByName(anyString())).thenReturn(Optional.of(mockproduct));
+
+        Product retreivedProduct = productService.deactivateProductByName(mockproduct.getName());
+
+        assertNotNull(retreivedProduct);
+        assertEquals(mockproduct, retreivedProduct);
+    }
+
+    @Test
+    public void activateProductById_productNotFound(){
+        Product mockproduct = clientTestUtils.createSingleProduct();
+
+        Mockito.when(productRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        Product retreivedProduct = productService.activateProductById(mockproduct.getId());
+
+        assertNull(retreivedProduct);
+    }
+
+    @Test
+    public void deactivateProductById_productNotFound(){
+        Product mockproduct = clientTestUtils.createSingleProduct();
+
+        Mockito.when(productRepository.findById(anyInt())).thenReturn(Optional.empty());
+
+        Product retreivedProduct = productService.deactivateProductById(mockproduct.getId());
+
+        assertNull(retreivedProduct);
+    }
+
+    @Test
+    public void activateProductByName_productNotFound(){
+        Product mockproduct = clientTestUtils.createSingleProduct();
+
+        Mockito.when(productRepository.findByName(anyString())).thenReturn(Optional.empty());
+
+        Product retreivedProduct = productService.activateProductByName(mockproduct.getName());
+
+        assertNull(retreivedProduct);
+    }
+
+    @Test
+    public void deactivateProductByName_productNotFound(){
+        Product mockproduct = clientTestUtils.createSingleProduct();
+
+        Mockito.when(productRepository.findByName(anyString())).thenReturn(Optional.empty());
+
+        Product retreivedProduct = productService.deactivateProductByName(mockproduct.getName());
+
+        assertNull(retreivedProduct);
     }
 }

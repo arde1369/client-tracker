@@ -46,6 +46,30 @@ public class TransactionServiceTest {
     }
 
     @Test
+    public void findAllTransactionsBetween_nullToDate_success() throws ParseException{
+        List<Transaction> listOfTransactions_mock = testUtils.createTransactionList(testUtils.createNewCompleteClient());
+
+        Mockito.when(transactionRepository.findByCreatedTimeStampBetween(any(), any())).thenReturn(listOfTransactions_mock);
+
+        List<Transaction> listOfTransactions_retreived = transactionService.findAllTransactionsByCreatedTimeStamp("2022-12-01", null);
+
+        assertNotNull(listOfTransactions_retreived);
+        assertEquals(2, listOfTransactions_retreived.size());
+    }
+
+    @Test
+    public void findAllTransactionsBetween_emptyToDate_success() throws ParseException{
+        List<Transaction> listOfTransactions_mock = testUtils.createTransactionList(testUtils.createNewCompleteClient());
+
+        Mockito.when(transactionRepository.findByCreatedTimeStampBetween(any(), any())).thenReturn(listOfTransactions_mock);
+
+        List<Transaction> listOfTransactions_retreived = transactionService.findAllTransactionsByCreatedTimeStamp("2022-12-01", null);
+
+        assertNotNull(listOfTransactions_retreived);
+        assertEquals(2, listOfTransactions_retreived.size());
+    }
+
+    @Test
     public void findAllTransactionsBetween_null() throws ParseException{
         Mockito.when(transactionRepository.findByCreatedTimeStampBetween(any(), any())).thenReturn(null);
 

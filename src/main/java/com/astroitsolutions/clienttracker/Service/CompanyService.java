@@ -34,12 +34,13 @@ public class CompanyService {
         boolean resultOfOperation = false;
         
         Optional<Client> clientOptional = clientRepository.findById(clientId);
-        Optional<Company> companyOptional = companyRepository.findById(companyId);
 
         if(!clientOptional.isPresent()){
             log.info("Unable to find client by the ID provided - ", clientId);
             return resultOfOperation;
         }
+
+        Optional<Company> companyOptional = companyRepository.findById(companyId);
 
         if(!companyOptional.isPresent()){
             log.info("Unable to find company by the ID provided - ", companyId);
