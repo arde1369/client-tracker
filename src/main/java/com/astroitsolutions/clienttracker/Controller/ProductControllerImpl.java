@@ -9,13 +9,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Service.ProductService;
 
+import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -28,7 +31,7 @@ public class ProductControllerImpl implements ProductController {
 
     @Override
     @PostMapping()
-    public ResponseEntity<Product> addProduct(Product product) {
+    public ResponseEntity<Product> addProduct(@Nonnull @RequestBody Product product) {
         Product addedProduct = null;
         try{
             addedProduct = productService.addProduct(product);
@@ -43,8 +46,8 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @GetMapping("/{id}")
-    public ResponseEntity<Product> findProductById(@PathVariable int id) {
+    @GetMapping("/id")
+    public ResponseEntity<Product> findProductById(@RequestParam int id) {
         Product retrievedProduct = null;
         try{
             retrievedProduct = productService.findProductById(id);
@@ -66,8 +69,8 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @GetMapping("/{name}")
-    public ResponseEntity<Product> findProductByName(@PathVariable String name) {
+    @GetMapping("/name")
+    public ResponseEntity<Product> findProductByName(@RequestParam String name) {
         Product retrievedProduct = null;
         try{
             retrievedProduct = productService.findProductByName(name);
@@ -89,8 +92,8 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @GetMapping("/reviews/{id}")
-    public ResponseEntity<List<Review>> retrieveAllReviewsForProductById(@PathVariable int id) {
+    @GetMapping("/reviews/id")
+    public ResponseEntity<List<Review>> retrieveAllReviewsForProductById(@RequestParam int id) {
         List<Review> retrievedProductReviews = null;
         try{
             retrievedProductReviews = productService.retrieveAllReviewsForProductById(id);
@@ -112,8 +115,8 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @GetMapping("/reviews/{name}")
-    public ResponseEntity<List<Review>> retrieveAllReviewsForProductByName(@PathVariable String name) {
+    @GetMapping("/reviews/name")
+    public ResponseEntity<List<Review>> retrieveAllReviewsForProductByName(@RequestParam String name) {
         List<Review> retrievedProductReviews = null;
         try{
             retrievedProductReviews = productService.retrieveAllReviewsForProductByName(name);
@@ -135,8 +138,8 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @PutMapping("/activate/{id}")
-    public ResponseEntity<Product> activateProductById(@PathVariable int id) {
+    @PutMapping("/activate/id")
+    public ResponseEntity<Product> activateProductById(@RequestParam int id) {
         Product retrievedProduct = null;
         try{
             retrievedProduct = productService.activateProductById(id);
@@ -158,8 +161,8 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @PutMapping("/deactivate/{id}")
-    public ResponseEntity<Product> deactivateProductById(int id) {
+    @PutMapping("/deactivate/id")
+    public ResponseEntity<Product> deactivateProductById(@RequestParam int id) {
         Product retrievedProduct = null;
         try{
             retrievedProduct = productService.activateProductById(id);
@@ -181,8 +184,8 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @PutMapping("/activate/{name}")
-    public ResponseEntity<Product> activateProductByName(String name) {
+    @PutMapping("/activate/name")
+    public ResponseEntity<Product> activateProductByName(@RequestParam String name) {
         Product retrievedProduct = null;
         try{
             retrievedProduct = productService.activateProductByName(name);
@@ -204,8 +207,8 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    @PutMapping("/deactivate/{name}")
-    public ResponseEntity<Product> deactivateProductByName(String name) {
+    @PutMapping("/deactivate/name")
+    public ResponseEntity<Product> deactivateProductByName(@RequestParam String name) {
         Product retrievedProduct = null;
         try{
             retrievedProduct = productService.deactivateProductByName(name);
