@@ -165,7 +165,7 @@ public class ProductControllerImpl implements ProductController {
     public ResponseEntity<Product> deactivateProductById(@RequestParam int id) {
         Product retrievedProduct = null;
         try{
-            retrievedProduct = productService.activateProductById(id);
+            retrievedProduct = productService.deactivateProductById(id);
             if(retrievedProduct == null){
                 log.error("Unable to deactivate product by id - " + id);
                 return ResponseEntity

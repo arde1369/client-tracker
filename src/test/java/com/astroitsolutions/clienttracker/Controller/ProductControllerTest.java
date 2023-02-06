@@ -230,4 +230,156 @@ public class ProductControllerTest {
         assertEquals(HttpStatusCode.valueOf(500), responseEntity.getStatusCode());
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
     }
+
+    @Test
+    public void activateProductById_success_200(){
+        Product product = testUtils.createSingleProduct();
+
+        when(productService.activateProductById(anyInt())).thenReturn(product);
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.activateProductById(0);
+
+        assertNotNull(responseEntity);
+        assertNotNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(200), responseEntity.getStatusCode());
+        assertEquals(product, responseEntity.getBody());
+    }
+
+    @Test
+    public void activateProductById_failure_400(){
+        when(productService.activateProductById(anyInt())).thenReturn(null);
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.activateProductById(0);
+
+        assertNotNull(responseEntity);
+        assertNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(400), responseEntity.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
+    }
+
+    @Test
+    public void activateProductById_failure_500(){
+        when(productService.activateProductById(anyInt())).thenThrow(new NullPointerException());
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.activateProductById(0);
+
+        assertNotNull(responseEntity);
+        assertNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(500), responseEntity.getStatusCode());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
+    }
+
+    @Test
+    public void deactivateProductById_success_200(){
+        Product product = testUtils.createSingleProduct();
+
+        when(productService.deactivateProductById(anyInt())).thenReturn(product);
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.deactivateProductById(0);
+
+        assertNotNull(responseEntity);
+        assertNotNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(200), responseEntity.getStatusCode());
+        assertEquals(product, responseEntity.getBody());
+    }
+
+    @Test
+    public void deactivateProductById_failure_400(){
+        when(productService.deactivateProductById(anyInt())).thenReturn(null);
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.deactivateProductById(0);
+
+        assertNotNull(responseEntity);
+        assertNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(400), responseEntity.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
+    }
+
+    @Test
+    public void deactivateProductById_failure_500(){
+        when(productService.deactivateProductById(anyInt())).thenThrow(new NullPointerException());
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.deactivateProductById(0);
+
+        assertNotNull(responseEntity);
+        assertNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(500), responseEntity.getStatusCode());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
+    }
+
+    @Test
+    public void activateProductByName_success_200(){
+        Product product = testUtils.createSingleProduct();
+
+        when(productService.activateProductByName(anyString())).thenReturn(product);
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.activateProductByName(product.getName());
+
+        assertNotNull(responseEntity);
+        assertNotNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(200), responseEntity.getStatusCode());
+        assertEquals(product, responseEntity.getBody());
+    }
+
+    @Test
+    public void activateProductByName_failure_400(){
+        when(productService.activateProductByName(anyString())).thenReturn(null);
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.activateProductByName("test");
+
+        assertNotNull(responseEntity);
+        assertNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(400), responseEntity.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
+    }
+
+    @Test
+    public void activateProductByName_failure_500(){
+        when(productService.activateProductByName(anyString())).thenThrow(new NullPointerException());
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.activateProductByName("test");
+
+        assertNotNull(responseEntity);
+        assertNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(500), responseEntity.getStatusCode());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
+    }
+
+    @Test
+    public void deactivateProductByName_success_200(){
+        Product product = testUtils.createSingleProduct();
+
+        when(productService.deactivateProductByName(anyString())).thenReturn(product);
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.deactivateProductByName("test");
+
+        assertNotNull(responseEntity);
+        assertNotNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(200), responseEntity.getStatusCode());
+        assertEquals(product, responseEntity.getBody());
+    }
+
+    @Test
+    public void deactivateProductByName_failure_400(){
+        when(productService.deactivateProductByName(anyString())).thenReturn(null);
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.deactivateProductByName("test");
+
+        assertNotNull(responseEntity);
+        assertNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(400), responseEntity.getStatusCode());
+        assertEquals(HttpStatus.NOT_FOUND.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
+    }
+
+    @Test
+    public void deactivateProductByName_failure_500(){
+        when(productService.deactivateProductByName(anyString())).thenThrow(new NullPointerException());
+
+        ResponseEntity<Product> responseEntity = productControllerImpl.deactivateProductByName("test");
+
+        assertNotNull(responseEntity);
+        assertNull(responseEntity.getBody());
+        assertEquals(HttpStatusCode.valueOf(500), responseEntity.getStatusCode());
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
+    }
 }
