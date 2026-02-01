@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @NoArgsConstructor
-@Embeddable
 public class Address {
 
     @Id

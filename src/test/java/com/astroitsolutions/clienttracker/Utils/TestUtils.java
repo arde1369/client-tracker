@@ -8,8 +8,6 @@ import java.util.List;
 
 import com.astroitsolutions.clienttracker.Entity.Address;
 import com.astroitsolutions.clienttracker.Entity.Client;
-import com.astroitsolutions.clienttracker.Entity.Company;
-import com.astroitsolutions.clienttracker.Entity.CompanySize;
 import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
@@ -22,7 +20,6 @@ public class TestUtils {
         mockClient.setId(1);
         mockClient.setFirstname("Arash");
         mockClient.setLastname("Dehdari");
-        mockClient.setCompany(createNewMedSizeCompany(mockClient));
         mockClient.setAddress(createNewAddress());
         mockClient.setRating(5);
         mockClient.setTransactions(createTransactionList(mockClient));
@@ -181,24 +178,5 @@ public class TestUtils {
         address.setZip("91823");
 
         return address;
-    }
-
-    /**
-     * Helper method to create a company
-     */
-    public Company createNewMedSizeCompany(Client mockClient) {
-        Company company = new Company();
-        List<Client> listOfEmployees = new ArrayList<>();
-        listOfEmployees.add(mockClient);
-
-        company.setCompanySize(CompanySize.M);
-        company.setId(1);
-        company.setInternational(false);
-        company.setName("Astro It Solutions LLC");
-        company.setDiscountPercentage(5.0);
-        company.setEmployeesWhoAreClients(listOfEmployees);
-        company.setHeadquartersAddress(createNewAddress());      
-
-        return company;
     }
 }
