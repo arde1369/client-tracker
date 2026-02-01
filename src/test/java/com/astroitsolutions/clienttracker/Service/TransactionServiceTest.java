@@ -7,11 +7,8 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,14 +18,14 @@ import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
 public class TransactionServiceTest {
 
+
     @Autowired
-    @InjectMocks
     private TransactionService transactionService;
 
-    @Mock
+
+    @MockBean
     private TransactionRepository transactionRepository;
 
     TestUtils testUtils = new TestUtils();
