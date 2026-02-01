@@ -93,7 +93,7 @@ public class ClientService {
         Optional<Product> retrievedProductOptional = productRepository.findById(review.getProduct().getId());
         Product retrievedProduct = retrievedProductOptional.get();
 
-        int calculatedRating = RatingCalculator.calculate(review.getRating(), retrievedProduct.getRating());
+        int calculatedRating = RatingCalculator.calculate(review.getRating(), retrievedProduct.getRating(), retrievedProduct.getNumberOfRatings());
         retrievedProduct.setRating(calculatedRating);
         retrievedProduct.getProductReviews().add(review);
 
@@ -209,7 +209,7 @@ public class ClientService {
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
 
-            int calculatedRating = RatingCalculator.calculate(rating, retrievedClient.getRating());
+            int calculatedRating = RatingCalculator.calculate(rating, retrievedClient.getRating(), retrievedClient.getNumberOfRatings());
 
             retrievedClient.setRating(calculatedRating);
 
@@ -231,7 +231,7 @@ public class ClientService {
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
 
-            int calculatedRatingEnum = RatingCalculator.calculate(rating, retrievedClient.getRating());
+            int calculatedRatingEnum = RatingCalculator.calculate(rating, retrievedClient.getRating(), retrievedClient.getNumberOfRatings() );
 
             retrievedClient.setRating(calculatedRatingEnum);
 

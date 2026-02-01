@@ -22,6 +22,7 @@ public class TestUtils {
         mockClient.setLastname("Dehdari");
         mockClient.setAddress(createNewAddress());
         mockClient.setRating(5);
+        mockClient.setNumberOfRatings(1);
         mockClient.setTransactions(createTransactionList(mockClient));
 
         return mockClient;

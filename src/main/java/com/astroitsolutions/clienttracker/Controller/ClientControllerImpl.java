@@ -70,8 +70,8 @@ public class ClientControllerImpl implements ClientController {
     }
 
     @Override
-    @GetMapping("/{firstname}/{lastname}")
-    public ResponseEntity<Client> retrieveClientByFirstnameAndLastname(@PathVariable @NonNull String firstname, @PathVariable @NonNull String lastname) {
+    @GetMapping("/name")
+    public ResponseEntity<Client> retrieveClientByFirstnameAndLastname(@RequestParam @NonNull String firstname, @RequestParam @NonNull String lastname) {
         Client retrievedClient = null;
         try{
             retrievedClient = clientService.retrieveClientByFirstnameAndLastname(firstname, lastname);
@@ -139,8 +139,8 @@ public class ClientControllerImpl implements ClientController {
     }
 
     @Override
-    @GetMapping("/reviews/{firstname}/{lastname}")
-    public ResponseEntity<List<Review>> getReviewsAddedByClientByFirstnameAndLastname(@PathVariable @NonNull String firstname, @PathVariable @NonNull String lastname) {
+    @GetMapping("/reviews")
+    public ResponseEntity<List<Review>> getReviewsAddedByClientByFirstnameAndLastname(@RequestParam @NonNull String firstname, @RequestParam @NonNull String lastname) {
         List<Review> retrievedClientReviews = null;
         try{
             retrievedClientReviews = clientService.getReviewsAddedByClientByFirstnameAndLastname(firstname, lastname);
@@ -207,8 +207,8 @@ public class ClientControllerImpl implements ClientController {
     }
 
     @Override
-    @GetMapping("/transactions/{firstname}/{lastname}")
-    public ResponseEntity<List<Transaction>> getTransactionsAddedByClientByFirstnameAndLastname(@PathVariable @NonNull String firstname, @NonNull String lastname) {
+    @GetMapping("/transactions")
+    public ResponseEntity<List<Transaction>> getTransactionsAddedByClientByFirstnameAndLastname(@RequestParam @NonNull String firstname, @RequestParam @NonNull String lastname) {
         List<Transaction> retrievedClientTransactions = null;
         try{
             retrievedClientTransactions = clientService.getTransactionsAddedByClientByFirstnameAndLastname(firstname, lastname);
@@ -230,8 +230,8 @@ public class ClientControllerImpl implements ClientController {
     }
 
     @Override
-    @PutMapping("/rating/{id}/{rating}")
-    public ResponseEntity<HttpStatus> updateRatingForClientById(@PathVariable int id, @PathVariable int rating) {
+    @PutMapping("/rating/id")
+    public ResponseEntity<HttpStatus> updateRatingForClientById(@RequestParam int id, @RequestParam int rating) {
         boolean results = false;
         try{
             results = clientService.updateRatingForClientById(id, rating);
@@ -249,8 +249,8 @@ public class ClientControllerImpl implements ClientController {
     }
 
     @Override
-    @PutMapping("/rating/{firstname}/{lastname}/{rating}")
-    public ResponseEntity<HttpStatus> updateRatingForClientByFirstnameAndLastname(@PathVariable String firstname, @PathVariable String lastname, @PathVariable int rating) {
+    @PutMapping("/rating/name")
+    public ResponseEntity<HttpStatus> updateRatingForClientByFirstnameAndLastname(@RequestParam String firstname, @RequestParam String lastname, @RequestParam int rating) {
         boolean results = false;
         try{
             results = clientService.updateRatingForClientByFirstnameAndLastname(firstname, lastname, rating);

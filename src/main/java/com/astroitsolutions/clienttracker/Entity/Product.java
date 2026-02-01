@@ -39,6 +39,9 @@ public class Product {
     @JsonProperty(access = Access.READ_ONLY)
     private int rating = 0;
 
+    @JsonProperty(access = Access.READ_ONLY)
+    private int numberOfRatings = 0;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JsonBackReference
     @ToString.Exclude

@@ -38,6 +38,8 @@ public class Client {
 
     private int rating;
 
+    private int numberOfRatings = 0;
+
     @CreationTimestamp
     @JsonProperty(access = Access.READ_ONLY)
     private Date createdTimeStamp;
