@@ -2,7 +2,9 @@ package com.astroitsolutions.clienttracker.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +15,6 @@ import jakarta.transaction.Transactional;
 @Transactional
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
-    List<Transaction> findByCreatedTimeStampBetween(Date from, Date to);
+    List<Transaction> findByCreatedTimeStampBetween(Date from, Date to, Pageable pageable);
+    Optional<List<Transaction>> findAllByClientId(int clientId, Pageable pageable);
 }

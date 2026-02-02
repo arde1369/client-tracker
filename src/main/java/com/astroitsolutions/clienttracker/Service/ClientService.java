@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.astroitsolutions.clienttracker.Entity.Client;
@@ -12,6 +14,8 @@ import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
 import com.astroitsolutions.clienttracker.Repository.ClientRepository;
 import com.astroitsolutions.clienttracker.Repository.ProductRepository;
+import com.astroitsolutions.clienttracker.Repository.ReviewRepository;
+import com.astroitsolutions.clienttracker.Repository.TransactionRepository;
 import com.astroitsolutions.clienttracker.Util.RatingCalculator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +29,12 @@ public class ClientService {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
     
     public Client addClient(Client client){
 
@@ -100,33 +110,20 @@ public class ClientService {
         productRepository.save(retrievedProduct);
     }
 
-    public List<Review> getReviewsAddedByClientById(int id){
+    public List<Review> getReviewsAddedByClientById(int id, int pageSize, int pageNumber){
         log.debug("Retrieving reviews by client id - " + id);
 
-        Optional<Client> retrievedClientOptional = clientRepository.findById(id);
-        if(retrievedClientOptional.isPresent()){
-            Client retrievedClient = retrievedClientOptional.get();
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        Optional<List<Review>> retrievedReviewListOptional = reviewRepository.findAllByClientId(id, pageable);
+        if(retrievedReviewListOptional.isPresent()){
+            List<Review> retreivedReviewsList = retrievedReviewListOptional.get();
 
             log.info("Successfully retrieved reviews for client ID " + id);
 
-            return retrievedClient.getReviews();
+            return retreivedReviewsList;
         } else {
             log.info("Unable to retrieve reviews. No client found by client by ID: " + id );
-        }
-        return null;
-    }
-
-    public List<Review> getReviewsAddedByClientByFirstnameAndLastname(String firstname, String lastname){
-        log.debug("Retrieving reviews for client by firsname - " + firstname +", and lastname - " + lastname);
-
-        Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
-
-        if(retrievedClientOptional.isPresent()){
-            Client retrievedClient = retrievedClientOptional.get();
-            log.info("Successfully retrieved reviews for client by firsname - " + firstname +", and lastname - " + lastname);
-            return retrievedClient.getReviews();
-        } else {
-            log.info("Unable to retrieve reviews. No client found by firsname - " + firstname +", and lastname - " + lastname);
         }
         return null;
     }
@@ -170,33 +167,20 @@ public class ClientService {
         return results;
     }
 
-    public List<Transaction> getTransactionsByClientById(int id){
+    public List<Transaction> getTransactionsByClientById(int id, int pageSize, int pageNumber){
         log.debug("Retrieving transactions by client id - " + id);
 
-        Optional<Client> retrievedClientOptional = clientRepository.findById(id);
-        if(retrievedClientOptional.isPresent()){
-            Client retrievedClient = retrievedClientOptional.get();
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        Optional<List<Transaction>> retrievedTransactionListOptional = transactionRepository.findAllByClientId(id, pageable);
+        if(retrievedTransactionListOptional.isPresent()){
+            List<Transaction> retrievedClient = retrievedTransactionListOptional.get();
 
             log.info("Successfully retrieved transactions for client ID " + id);
 
-            return retrievedClient.getTransactions();
+            return retrievedClient;
         } else {
             log.info("Unable to retrieve transactions. No client found by client by ID: " + id );
-        }
-        return null;
-    }
-
-    public List<Transaction> getTransactionsAddedByClientByFirstnameAndLastname(String firstname, String lastname){
-        log.debug("Retrieving transactions for client by firsname - " + firstname +", and lastname - " + lastname);
-
-        Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
-
-        if(retrievedClientOptional.isPresent()){
-            Client retrievedClient = retrievedClientOptional.get();
-            log.info("Successfully retrieved transactions for client by firsname - " + firstname +", and lastname - " + lastname);
-            return retrievedClient.getTransactions();
-        } else {
-            log.info("Unable to retrieve transactions. No client found by firsname - " + firstname +", and lastname - " + lastname);
         }
         return null;
     }

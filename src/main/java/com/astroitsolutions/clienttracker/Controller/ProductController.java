@@ -60,19 +60,8 @@ public interface ProductController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public ResponseEntity<List<Review>> retrieveAllReviewsForProductById(int id);
+    public ResponseEntity<List<Review>> retrieveAllReviewsForProductById(int id, int pageNumber, int pageSize);
 
-    @Operation(
-        summary = "",
-        description = "",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Successful Operation"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
-        })
-    public ResponseEntity<List<Review>> retrieveAllReviewsForProductByName(String name );
 
     @Operation(
         summary = "",

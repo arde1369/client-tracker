@@ -93,10 +93,10 @@ public class ProductControllerImpl implements ProductController {
 
     @Override
     @GetMapping("/reviews/id")
-    public ResponseEntity<List<Review>> retrieveAllReviewsForProductById(@RequestParam int id) {
+    public ResponseEntity<List<Review>> retrieveAllReviewsForProductById(@RequestParam int id, @RequestParam int pageNumber, @RequestParam int pageSize) {
         List<Review> retrievedProductReviews = null;
         try{
-            retrievedProductReviews = productService.retrieveAllReviewsForProductById(id);
+            retrievedProductReviews = productService.retrieveAllReviewsForProductById(id, pageSize, pageNumber);
             if(retrievedProductReviews == null){
                 log.error("Unable to find product by id - " + id);
                 return ResponseEntity
@@ -114,28 +114,6 @@ public class ProductControllerImpl implements ProductController {
         return ResponseEntity.ok(retrievedProductReviews);
     }
 
-    @Override
-    @GetMapping("/reviews/name")
-    public ResponseEntity<List<Review>> retrieveAllReviewsForProductByName(@RequestParam String name) {
-        List<Review> retrievedProductReviews = null;
-        try{
-            retrievedProductReviews = productService.retrieveAllReviewsForProductByName(name);
-            if(retrievedProductReviews == null){
-                log.error("Unable to find product by id - " + name);
-                return ResponseEntity
-                .badRequest()
-                .header("error-message", HttpStatus.NOT_FOUND.getReasonPhrase())
-                .body(null);
-            }
-        } catch(Exception ex){
-            log.error("Unexpected error occurred - ", ex);
-                return ResponseEntity
-                .internalServerError()
-                .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-                .body(null);
-        }
-        return ResponseEntity.ok(retrievedProductReviews);
-    }
 
     @Override
     @PutMapping("/activate/id")

@@ -7,6 +7,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.astroitsolutions.clienttracker.Entity.Transaction;
@@ -22,7 +24,7 @@ public class TransactionService {
     @Autowired
     private TransactionRepository transactionRepository;
 
-    public List<Transaction> findAllTransactionsByCreatedTimeStamp(String from, String to) throws ParseException{
+    public List<Transaction> findAllTransactionsByCreatedTimeStamp(String from, String to, int pageSize, int pageNumber) throws ParseException{
 
         Date toDate = null;
         Date fromDate = new SimpleDateFormat(DATE_FORMAT).parse(from);
@@ -34,6 +36,8 @@ public class TransactionService {
             toDate = new SimpleDateFormat(DATE_FORMAT).parse(to);
         }
 
-        return transactionRepository.findByCreatedTimeStampBetween(fromDate, toDate);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        return transactionRepository.findByCreatedTimeStampBetween(fromDate, toDate, pageable);
     }
 }

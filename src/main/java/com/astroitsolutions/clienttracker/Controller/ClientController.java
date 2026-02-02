@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.astroitsolutions.clienttracker.Entity.Client;
 import com.astroitsolutions.clienttracker.Entity.Review;
@@ -74,19 +75,7 @@ public interface ClientController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public ResponseEntity<List<Review>> getReviewsAddedByClientById(int id);
-
-    @Operation(
-        summary = "",
-        description = "",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Successful Operation"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
-        })
-    public ResponseEntity<List<Review>> getReviewsAddedByClientByFirstnameAndLastname(String firstname, String lastname);
+    public ResponseEntity<List<Review>> getReviewsAddedByClientById(int id, int pageNumber, int pageSize);
 
     @Operation(
         summary = "",
@@ -122,19 +111,7 @@ public interface ClientController {
             @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
         })
-    public ResponseEntity<List<Transaction>> getTransactionsByClientById(int id);
-
-    @Operation(
-        summary = "",
-        description = "",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Successful Operation"),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = String.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = String.class)))
-        })
-    public ResponseEntity<List<Transaction>> getTransactionsAddedByClientByFirstnameAndLastname(String firstname, String lastname);
+    public ResponseEntity<List<Transaction>> getTransactionsByClientById(int id, int pageNumber, int pageSize);
 
     @Operation(
         summary = "",

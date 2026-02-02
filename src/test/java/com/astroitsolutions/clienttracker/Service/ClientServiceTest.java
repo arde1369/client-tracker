@@ -2,6 +2,7 @@ package com.astroitsolutions.clienttracker.Service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -19,6 +21,8 @@ import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
 import com.astroitsolutions.clienttracker.Repository.ClientRepository;
 import com.astroitsolutions.clienttracker.Repository.ProductRepository;
+import com.astroitsolutions.clienttracker.Repository.ReviewRepository;
+import com.astroitsolutions.clienttracker.Repository.TransactionRepository;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 @SpringBootTest
@@ -36,7 +40,13 @@ public class ClientServiceTest {
     @MockBean
     private ProductRepository productRepository;
 
+    @MockBean
+    private TransactionRepository transactionRepository;
+
     TestUtils testUtils = new TestUtils();
+
+    @MockBean
+    private ReviewRepository reviewRepository;
 
     @Test
     public void addClient_success(){
@@ -131,24 +141,10 @@ public class ClientServiceTest {
     @Test
     public void getReviewsAddedByClientById_success(){
         Client mockClient = testUtils.createNewCompleteClient();
-        Optional<Client>  clientOptional= Optional.of(mockClient);
 
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
+        Mockito.when(reviewRepository.findAllByClientId(anyInt(), any(Pageable.class))).thenReturn(Optional.of(mockClient.getReviews()));
 
-        List<Review> reviews = clientService.getReviewsAddedByClientById(Mockito.anyInt());
-
-        assertNotNull(reviews);
-        assertEquals(8, reviews.size());
-    }
-
-    @Test
-    public void getReviewsAddedByClientByFirstnameAndLastname_success(){
-        Client mockClient = testUtils.createNewCompleteClient();
-        Optional<Client>  clientOptional= Optional.of(mockClient);
-
-        Mockito.when(clientRepository.findByFirstnameAndLastname(any(), any())).thenReturn(clientOptional);
-
-        List<Review> reviews = clientService.getReviewsAddedByClientByFirstnameAndLastname(anyString(), anyString());
+        List<Review> reviews = clientService.getReviewsAddedByClientById(1, 1, 1);
 
         assertNotNull(reviews);
         assertEquals(8, reviews.size());
@@ -156,22 +152,10 @@ public class ClientServiceTest {
 
     @Test
     public void getReviewsAddedByClientById_null_noClientFoundById(){
-        Optional<Client>  clientOptional= Optional.empty();
 
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
+        Mockito.when(reviewRepository.findAllByClientId(anyInt(), any(Pageable.class))).thenReturn(Optional.empty());
 
-        List<Review> reviews = clientService.getReviewsAddedByClientById(Mockito.anyInt());
-
-        assertNull(reviews);
-    }
-
-    @Test
-    public void getReviewsAddedByClientByFirstnameAndLastname_null_noClientFoundByName(){
-        Optional<Client>  clientOptional= Optional.empty();
-
-        Mockito.when(clientRepository.findByFirstnameAndLastname(any(), any())).thenReturn(clientOptional);
-
-        List<Review> reviews = clientService.getReviewsAddedByClientByFirstnameAndLastname(anyString(), anyString());
+        List<Review> reviews = clientService.getReviewsAddedByClientById(1, 1, 1);
 
         assertNull(reviews);
     }
@@ -235,37 +219,20 @@ public class ClientServiceTest {
     @Test
     public void getTransactionsByClientById_success(){
         Client mockClient = testUtils.createNewCompleteClient();
-        Optional<Client>  clientOptional= Optional.of(mockClient);
 
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
+        Mockito.when(transactionRepository.findAllByClientId(anyInt(), any(Pageable.class))).thenReturn(Optional.of(mockClient.getTransactions()));
 
-        List<Transaction> listOfTransactions = clientService.getTransactionsByClientById(mockClient.getId());
-
-        assertNotNull(listOfTransactions);
-        assertEquals(mockClient.getTransactions().size(), listOfTransactions.size());
-    }
-
-    @Test
-    public void getTransactionsAddedByClientByFirstnameAndLastname_success(){
-        Client mockClient = testUtils.createNewCompleteClient();
-        Optional<Client>  clientOptional= Optional.of(mockClient);
-
-        Mockito.when(clientRepository.findByFirstnameAndLastname(any(), any())).thenReturn(clientOptional);
-
-        List<Transaction> listOfTransactions = clientService.getTransactionsAddedByClientByFirstnameAndLastname(mockClient.getFirstname(), mockClient.getLastname());
+        List<Transaction> listOfTransactions = clientService.getTransactionsByClientById(mockClient.getId(), 20, 0);
 
         assertNotNull(listOfTransactions);
         assertEquals(mockClient.getTransactions().size(), listOfTransactions.size());
     }
 
     @Test
-    public void getTransactionsByClientById_null_noClientFoundById(){
-        Client mockClient = testUtils.createNewCompleteClient();
-        Optional<Client>  clientOptional= Optional.empty();
+    public void getTransactionsByClientById_empty(){
+        Mockito.when(transactionRepository.findAllByClientId(anyInt(), any(Pageable.class))).thenReturn(Optional.empty());
 
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
-
-        List<Transaction> listOfTransactions = clientService.getTransactionsByClientById(mockClient.getId());
+        List<Transaction> listOfTransactions = clientService.getTransactionsByClientById(1,2,1);
 
         assertNull(listOfTransactions);
     }
@@ -277,7 +244,7 @@ public class ClientServiceTest {
 
         Mockito.when(clientRepository.findByFirstnameAndLastname(any(), any())).thenReturn(clientOptional);
 
-        List<Transaction> listOfTransactions = clientService.getTransactionsAddedByClientByFirstnameAndLastname(mockClient.getFirstname(), mockClient.getLastname());
+        List<Transaction> listOfTransactions = clientService.getTransactionsByClientById(mockClient.getId(), 20, 0);
 
         assertNull(listOfTransactions);
     }

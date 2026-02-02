@@ -4,13 +4,18 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Repository.ProductRepository;
+import com.astroitsolutions.clienttracker.Repository.ReviewRepository;
 
 import lombok.extern.slf4j.Slf4j;
+
 
 @Service
 @Slf4j
@@ -18,6 +23,9 @@ public class ProductService {
     
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     public Product addProduct(Product product){
         log.debug("Adding product: " + product.toString());
@@ -60,34 +68,19 @@ public class ProductService {
         return null;
     }
 
-    public List<Review> retrieveAllReviewsForProductById(int id){
+    public List<Review> retrieveAllReviewsForProductById(int id, int pageSize, int pageNumber){
         log.debug("Retrieving reviews for product by ID: " + String.valueOf(id));
 
-        Optional<Product> retrievedProductOptional = productRepository.findById(id);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Optional<List<Review>> reviewsListOptional= reviewRepository.findAllByProductId(id, pageable);
 
-        if(retrievedProductOptional.isPresent()){
-            Product retrievedProduct = retrievedProductOptional.get();
-            log.info("Successfully retrieved reviews for product by ID: " + retrievedProduct);
-            return retrievedProduct.getProductReviews();
+        if(reviewsListOptional.isPresent()){
+            List<Review> reviewsList = reviewsListOptional.get();
+            log.debug("Successfully retrieved reviews for product by ID: " + reviewsList);
+            return reviewsList;
         }
         
         log.debug("Unable to retrieve reviews for product by ID: " + String.valueOf(id));
-        
-        return null;
-    }
-
-    public List<Review> retrieveAllReviewsForProductByName(String name ){
-        log.debug("Retrieving reviews for product by name: " + name);
-
-        Optional<Product> retrievedProductOptional = productRepository.findByName(name);
-
-        if(retrievedProductOptional.isPresent()){
-            Product retrievedProduct = retrievedProductOptional.get();
-            log.info("Successfully retrieved reviews for product by name: " + retrievedProduct);
-            return retrievedProduct.getProductReviews();
-        }
-        
-        log.debug("Unable to retrieve reviews for product by name: " + name);
         
         return null;
     }

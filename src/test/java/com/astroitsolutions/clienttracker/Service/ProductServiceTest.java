@@ -11,12 +11,14 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Repository.ProductRepository;
+import com.astroitsolutions.clienttracker.Repository.ReviewRepository;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 
@@ -29,6 +31,9 @@ public class ProductServiceTest {
 
     @MockBean
     private ProductRepository productRepository;
+
+    @MockBean
+    private ReviewRepository reviewRepository;
 
     TestUtils clientTestUtils = new TestUtils();
 
@@ -94,44 +99,20 @@ public class ProductServiceTest {
     public void retrieveAllReviewsForProductById_success(){
         Product mockproduct = clientTestUtils.createSingleProduct();
 
-        Mockito.when(productRepository.findById(mockproduct.getId())).thenReturn(Optional.of(mockproduct));
+        Mockito.when(reviewRepository.findAllByProductId(anyInt(), any(Pageable.class))).thenReturn(Optional.of(mockproduct.getProductReviews()));
 
-        List<Review> reviewsList = productService.retrieveAllReviewsForProductById(mockproduct.getId());
-
-        assertNotNull(reviewsList);
-        assertEquals(reviewsList, mockproduct.getProductReviews());
-    }
-
-    @Test
-    public void retrieveAllReviewsForProductByName_success(){
-        Product mockproduct = clientTestUtils.createSingleProduct();
-
-        Mockito.when(productRepository.findByName(mockproduct.getName())).thenReturn(Optional.of(mockproduct));
-
-        List<Review> reviewsList = productService.retrieveAllReviewsForProductByName(mockproduct.getName());
+        List<Review> reviewsList = productService.retrieveAllReviewsForProductById(mockproduct.getId(), 1, 1);
 
         assertNotNull(reviewsList);
         assertEquals(reviewsList, mockproduct.getProductReviews());
     }
 
     @Test
-    public void retrieveAllReviewsForProductById_null_noProductFoundById(){
-        Product mockproduct = clientTestUtils.createSingleProduct();
+    public void retrieveAllReviewsForProductById_empty(){
 
-        Mockito.when(productRepository.findById(mockproduct.getId())).thenReturn(Optional.empty());
+        Mockito.when(reviewRepository.findAllByProductId(anyInt(), any(Pageable.class))).thenReturn(Optional.empty());
 
-        List<Review> reviewsList = productService.retrieveAllReviewsForProductById(mockproduct.getId());
-
-        assertNull(reviewsList);
-    }
-
-    @Test
-    public void retrieveAllReviewsForProductByName_null_noProductFoundByName(){
-        Product mockproduct = clientTestUtils.createSingleProduct();
-
-        Mockito.when(productRepository.findByName(mockproduct.getName())).thenReturn(Optional.empty());
-
-        List<Review> reviewsList = productService.retrieveAllReviewsForProductByName(mockproduct.getName());
+        List<Review> reviewsList = productService.retrieveAllReviewsForProductById(1, 1, 1);
 
         assertNull(reviewsList);
     }

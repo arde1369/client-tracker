@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -116,36 +115,13 @@ public class ClientControllerImpl implements ClientController {
 
     @Override
     @GetMapping("/reviews/id")
-    public ResponseEntity<List<Review>> getReviewsAddedByClientById(@RequestParam int id) {
+    public ResponseEntity<List<Review>> getReviewsAddedByClientById(@RequestParam int id, @RequestParam int pageNumber, @RequestParam int pageSize) {
         
         List<Review> retrievedClientReviews = null;
         try{
-            retrievedClientReviews = clientService.getReviewsAddedByClientById(id);
+            retrievedClientReviews = clientService.getReviewsAddedByClientById(id, pageSize, pageNumber);
             if(retrievedClientReviews == null){
                 log.error("Unable to find client by id - " + id);
-                return ResponseEntity
-                .badRequest()
-                .header("error-message", HttpStatus.NOT_FOUND.getReasonPhrase())
-                .body(null);
-            }
-        } catch(Exception ex){
-            log.error("Unexpected error occurred - ", ex);
-                return ResponseEntity
-                .internalServerError()
-                .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-                .body(null);
-        }
-        return ResponseEntity.ok(retrievedClientReviews);
-    }
-
-    @Override
-    @GetMapping("/reviews")
-    public ResponseEntity<List<Review>> getReviewsAddedByClientByFirstnameAndLastname(@RequestParam @NonNull String firstname, @RequestParam @NonNull String lastname) {
-        List<Review> retrievedClientReviews = null;
-        try{
-            retrievedClientReviews = clientService.getReviewsAddedByClientByFirstnameAndLastname(firstname, lastname);
-            if(retrievedClientReviews == null){
-                log.error("Unable to Retrieve client by firsname - " + firstname +", and lastname - " + lastname);
                 return ResponseEntity
                 .badRequest()
                 .header("error-message", HttpStatus.NOT_FOUND.getReasonPhrase())
@@ -185,35 +161,12 @@ public class ClientControllerImpl implements ClientController {
 
     @Override
     @GetMapping("/transactions/id")
-    public ResponseEntity<List<Transaction>> getTransactionsByClientById(@RequestParam int id) {
+    public ResponseEntity<List<Transaction>> getTransactionsByClientById(@RequestParam int id, @RequestParam int pageNumber, @RequestParam int pageSize) {
         List<Transaction> retrievedClientTransactions = null;
         try{
-            retrievedClientTransactions = clientService.getTransactionsByClientById(id);
+            retrievedClientTransactions = clientService.getTransactionsByClientById(id, pageSize, pageNumber);
             if(retrievedClientTransactions == null){
                 log.error("Unable to find client by id - " + id);
-                return ResponseEntity
-                .badRequest()
-                .header("error-message", HttpStatus.NOT_FOUND.getReasonPhrase())
-                .body(null);
-            }
-        } catch(Exception ex){
-            log.error("Unexpected error occurred - ", ex);
-                return ResponseEntity
-                .internalServerError()
-                .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
-                .body(null);
-        }
-        return ResponseEntity.ok(retrievedClientTransactions);
-    }
-
-    @Override
-    @GetMapping("/transactions")
-    public ResponseEntity<List<Transaction>> getTransactionsAddedByClientByFirstnameAndLastname(@RequestParam @NonNull String firstname, @RequestParam @NonNull String lastname) {
-        List<Transaction> retrievedClientTransactions = null;
-        try{
-            retrievedClientTransactions = clientService.getTransactionsAddedByClientByFirstnameAndLastname(firstname, lastname);
-            if(retrievedClientTransactions == null){
-                log.error("Unable to Retrieve transactions for client by firsname - " + firstname +", and lastname - " + lastname);
                 return ResponseEntity
                 .badRequest()
                 .header("error-message", HttpStatus.NOT_FOUND.getReasonPhrase())

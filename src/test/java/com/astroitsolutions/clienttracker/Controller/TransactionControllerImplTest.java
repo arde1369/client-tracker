@@ -4,8 +4,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -15,9 +19,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.test.web.servlet.MockMvc;
 
 import com.astroitsolutions.clienttracker.Entity.Transaction;
 import com.astroitsolutions.clienttracker.Entity.Client;
@@ -25,11 +31,15 @@ import com.astroitsolutions.clienttracker.Service.TransactionService;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 public class TransactionControllerImplTest {
     
 
     @Autowired
     private TransactionControllerImpl transactionControllerImpl;
+
+    @Autowired
+    private MockMvc mockMvc;
 
 
     @MockBean
@@ -46,9 +56,9 @@ public class TransactionControllerImplTest {
         listOfTransactions.add(testUtils.createSingleTransaction(mockClient));
 
         try {
-            when(transactionService.findAllTransactionsByCreatedTimeStamp(anyString(), anyString())).thenReturn(listOfTransactions);
+            when(transactionService.findAllTransactionsByCreatedTimeStamp(anyString(), anyString(), anyInt(), anyInt())).thenReturn(listOfTransactions);
 
-            ResponseEntity<List<Transaction>> responseEntity = transactionControllerImpl.findAllTransactionsByCreatedTimeStamp("12-1-2021", "12-1-2022");
+            ResponseEntity<List<Transaction>> responseEntity = transactionControllerImpl.findAllTransactionsByCreatedTimeStamp("12-1-2021", "12-1-2022", 20 ,0);
 
             assertNotNull(responseEntity);
             assertNotNull(responseEntity.getBody());
@@ -61,25 +71,16 @@ public class TransactionControllerImplTest {
     }
 
     @Test
-    public void findAllTransactionsByCreatedTimeStamp_failure_500(){
+    public void findAllTransactionsByCreatedTimeStamp_parseException_handledByAdvice_400() throws Exception{
 
-        List<Transaction> listOfTransactions = new ArrayList<>();
-        Client mockClient = testUtils.createNewCompleteClient();
+        when(transactionService.findAllTransactionsByCreatedTimeStamp(anyString(), anyString(), anyInt(), anyInt())).thenThrow(new ParseException("err", 0));
 
-        listOfTransactions.add(testUtils.createSingleTransaction(mockClient));
-
-        try {
-            when(transactionService.findAllTransactionsByCreatedTimeStamp(anyString(), anyString())).thenThrow(new ParseException(null, 0));
-
-            ResponseEntity<List<Transaction>> responseEntity = transactionControllerImpl.findAllTransactionsByCreatedTimeStamp("12-1-2021", "12-1-2022");
-
-            assertNotNull(responseEntity);
-            assertNull(responseEntity.getBody());
-            assertEquals(HttpStatusCode.valueOf(500), responseEntity.getStatusCode());
-            assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
-        } catch (ParseException e) {
-            e.printStackTrace();
-            fail();
-        }
+        mockMvc.perform(get("/api/tansaction/")
+                .param("from", "12-1-2021")
+                .param("to", "12-1-2022")
+                .param("pageSize", "20")
+                .param("pageNumber", "0"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("An error occurred when parsing date"));
     }
 }

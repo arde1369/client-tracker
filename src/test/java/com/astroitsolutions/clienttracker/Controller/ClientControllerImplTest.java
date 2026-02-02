@@ -196,9 +196,9 @@ public class ClientControllerImplTest {
     public void getReviewsAddedByClientById_success_200(){
         List<Review> retrievedClientReviews = testUtils.createReviewsList(testUtils.createSingleProduct(), testUtils.createNewCompleteClient());
 
-        when(clientService.getReviewsAddedByClientById(anyInt())).thenReturn(retrievedClientReviews);
+        when(clientService.getReviewsAddedByClientById(anyInt(), anyInt(), anyInt())).thenReturn(retrievedClientReviews);
 
-        ResponseEntity<List<Review>> responseEntity = clientControllerImpl.getReviewsAddedByClientById(0);
+        ResponseEntity<List<Review>> responseEntity = clientControllerImpl.getReviewsAddedByClientById(0, 20, 0);
 
         assertNotNull(responseEntity);
         assertEquals(HttpStatusCode.valueOf(200), responseEntity.getStatusCode());
@@ -207,9 +207,9 @@ public class ClientControllerImplTest {
 
     @Test
     public void getReviewsAddedByClientById_failure_400(){
-        when(clientService.getReviewsAddedByClientById(anyInt())).thenReturn(null);
+        when(clientService.getReviewsAddedByClientById(anyInt(), anyInt(), anyInt())).thenReturn(null);
 
-        ResponseEntity<List<Review>> responseEntity = clientControllerImpl.getReviewsAddedByClientById(0);
+        ResponseEntity<List<Review>> responseEntity = clientControllerImpl.getReviewsAddedByClientById(0, 20, 0);
 
         assertNotNull(responseEntity);
         assertEquals(HttpStatusCode.valueOf(400), responseEntity.getStatusCode());
@@ -218,44 +218,9 @@ public class ClientControllerImplTest {
 
     @Test
     public void getReviewsAddedByClientById_failure_500(){
-        when(clientService.getReviewsAddedByClientById(anyInt())).thenThrow(new NullPointerException());
+        when(clientService.getReviewsAddedByClientById(anyInt(), anyInt(), anyInt())).thenThrow(new NullPointerException());
 
-        ResponseEntity<List<Review>> responseEntity = clientControllerImpl.getReviewsAddedByClientById(0);
-
-        assertNotNull(responseEntity);
-        assertEquals(HttpStatusCode.valueOf(500), responseEntity.getStatusCode());
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
-    }
-
-    @Test
-    public void getReviewsAddedByClientByFirstnameAndLastname_success_200(){
-        List<Review> retrievedClientReviews = testUtils.createReviewsList(testUtils.createSingleProduct(), testUtils.createNewCompleteClient());
-
-        when(clientService.getReviewsAddedByClientByFirstnameAndLastname(anyString(), anyString())).thenReturn(retrievedClientReviews);
-
-        ResponseEntity<List<Review>> responseEntity = clientControllerImpl.getReviewsAddedByClientByFirstnameAndLastname("first", "last");
-
-        assertNotNull(responseEntity);
-        assertEquals(HttpStatusCode.valueOf(200), responseEntity.getStatusCode());
-        assertEquals(retrievedClientReviews, responseEntity.getBody());    
-    }
-
-    @Test
-    public void getReviewsAddedByClientByFirstnameAndLastname_failure_400(){
-        when(clientService.getReviewsAddedByClientByFirstnameAndLastname(anyString(), anyString())).thenReturn(null);
-
-        ResponseEntity<List<Review>> responseEntity = clientControllerImpl.getReviewsAddedByClientByFirstnameAndLastname("first", "last");
-
-        assertNotNull(responseEntity);
-        assertEquals(HttpStatusCode.valueOf(400), responseEntity.getStatusCode());
-        assertEquals(HttpStatus.NOT_FOUND.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
-    }
-
-    @Test
-    public void getReviewsAddedByClientByFirstnameAndLastname_failure_500(){
-        when(clientService.getReviewsAddedByClientByFirstnameAndLastname(anyString(), anyString())).thenThrow(new NullPointerException());
-
-        ResponseEntity<List<Review>> responseEntity = clientControllerImpl.getReviewsAddedByClientByFirstnameAndLastname("first", "last");
+        ResponseEntity<List<Review>> responseEntity = clientControllerImpl.getReviewsAddedByClientById(0, 20, 0);
 
         assertNotNull(responseEntity);
         assertEquals(HttpStatusCode.valueOf(500), responseEntity.getStatusCode());
@@ -304,9 +269,9 @@ public class ClientControllerImplTest {
     public void getTransactionsByClientById_succes_200(){
         List<Transaction> retrievedClientTransactions = testUtils.createTransactionList(testUtils.createNewCompleteClient());
 
-        when(clientService.getTransactionsByClientById(anyInt())).thenReturn(retrievedClientTransactions);
+        when(clientService.getTransactionsByClientById(anyInt(), anyInt(), anyInt())).thenReturn(retrievedClientTransactions);
 
-        ResponseEntity<List<Transaction>> responseEntity = clientControllerImpl.getTransactionsByClientById(0);
+        ResponseEntity<List<Transaction>> responseEntity = clientControllerImpl.getTransactionsByClientById(0, 20, 0);
 
         assertNotNull(responseEntity);
         assertEquals(HttpStatusCode.valueOf(200), responseEntity.getStatusCode());
@@ -315,9 +280,9 @@ public class ClientControllerImplTest {
 
     @Test
     public void getTransactionsByClientById_failure_400(){
-        when(clientService.getTransactionsByClientById(anyInt())).thenReturn(null);
+        when(clientService.getTransactionsByClientById(anyInt(), anyInt(), anyInt())).thenReturn(null);
 
-        ResponseEntity<List<Transaction>> responseEntity = clientControllerImpl.getTransactionsByClientById(0);
+        ResponseEntity<List<Transaction>> responseEntity = clientControllerImpl.getTransactionsByClientById(0, 20, 0);
 
         assertNotNull(responseEntity);
         assertEquals(HttpStatusCode.valueOf(400), responseEntity.getStatusCode());
@@ -326,49 +291,15 @@ public class ClientControllerImplTest {
 
     @Test
     public void getTransactionsByClientById_failure_500(){
-        when(clientService.getTransactionsByClientById(anyInt())).thenThrow(new NullPointerException());
+        when(clientService.getTransactionsByClientById(anyInt(), anyInt(), anyInt())).thenThrow(new NullPointerException());
 
-        ResponseEntity<List<Transaction>> responseEntity = clientControllerImpl.getTransactionsByClientById(0);
-
-        assertNotNull(responseEntity);
-        assertEquals(HttpStatusCode.valueOf(500), responseEntity.getStatusCode());
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
-    }
-
-    @Test
-    public void getTransactionsAddedByClientByFirstnameAndLastname_succes_200(){
-        List<Transaction> retrievedClientTransactions = testUtils.createTransactionList(testUtils.createNewCompleteClient());
-
-        when(clientService.getTransactionsAddedByClientByFirstnameAndLastname(anyString(), anyString())).thenReturn(retrievedClientTransactions);
-
-        ResponseEntity<List<Transaction>> responseEntity = clientControllerImpl.getTransactionsAddedByClientByFirstnameAndLastname("first", "last");
-
-        assertNotNull(responseEntity);
-        assertEquals(HttpStatusCode.valueOf(200), responseEntity.getStatusCode());
-        assertEquals(retrievedClientTransactions, responseEntity.getBody());
-    }
-
-    @Test
-    public void getTransactionsAddedByClientByFirstnameAndLastname_failure_400(){
-        when(clientService.getTransactionsAddedByClientByFirstnameAndLastname(anyString(), anyString())).thenReturn(null);
-
-        ResponseEntity<List<Transaction>> responseEntity = clientControllerImpl.getTransactionsAddedByClientByFirstnameAndLastname("first", "last");
-
-        assertNotNull(responseEntity);
-        assertEquals(HttpStatusCode.valueOf(400), responseEntity.getStatusCode());
-        assertEquals(HttpStatus.NOT_FOUND.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
-    }
-
-    @Test
-    public void getTransactionsAddedByClientByFirstnameAndLastname_failure_500(){
-        when(clientService.getTransactionsAddedByClientByFirstnameAndLastname(anyString(), anyString())).thenThrow(new NullPointerException());
-
-        ResponseEntity<List<Transaction>> responseEntity = clientControllerImpl.getTransactionsAddedByClientByFirstnameAndLastname("first", "last");
+        ResponseEntity<List<Transaction>> responseEntity = clientControllerImpl.getTransactionsByClientById(0, 20, 0);
 
         assertNotNull(responseEntity);
         assertEquals(HttpStatusCode.valueOf(500), responseEntity.getStatusCode());
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
     }
+
 
     @Test
     public void updateRatingForClientById_success_200(){

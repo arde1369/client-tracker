@@ -155,9 +155,9 @@ public class ProductControllerTest {
     public void retrieveAllReviewsForProductById_success_200(){
         List<Review> retrievedProductReviews = testUtils.createReviewsList(testUtils.createSingleProduct(), testUtils.createNewCompleteClient());
 
-        when(productService.retrieveAllReviewsForProductById(anyInt())).thenReturn(retrievedProductReviews);
+        when(productService.retrieveAllReviewsForProductById(anyInt(), anyInt(), anyInt())).thenReturn(retrievedProductReviews);
 
-        ResponseEntity<List<Review>> responseEntity = productControllerImpl.retrieveAllReviewsForProductById(0);
+        ResponseEntity<List<Review>> responseEntity = productControllerImpl.retrieveAllReviewsForProductById(0, 20, 0);
 
         assertNotNull(responseEntity);
         assertNotNull(responseEntity.getBody());
@@ -167,9 +167,9 @@ public class ProductControllerTest {
 
     @Test
     public void retrieveAllReviewsForProductById_failure_400(){
-        when(productService.retrieveAllReviewsForProductById(anyInt())).thenReturn(null);
+        when(productService.retrieveAllReviewsForProductById(anyInt(), anyInt(), anyInt())).thenReturn(null);
 
-        ResponseEntity<List<Review>> responseEntity = productControllerImpl.retrieveAllReviewsForProductById(0);
+        ResponseEntity<List<Review>> responseEntity = productControllerImpl.retrieveAllReviewsForProductById(0, 20, 0);
 
         assertNotNull(responseEntity);
         assertNull(responseEntity.getBody());
@@ -180,47 +180,9 @@ public class ProductControllerTest {
 
     @Test
     public void retrieveAllReviewsForProductById_failure_500(){
-        when(productService.retrieveAllReviewsForProductById(anyInt())).thenThrow(new NullPointerException());
+        when(productService.retrieveAllReviewsForProductById(anyInt(), anyInt(), anyInt())).thenThrow(new NullPointerException());
 
-        ResponseEntity<List<Review>> responseEntity = productControllerImpl.retrieveAllReviewsForProductById(0);
-
-        assertNotNull(responseEntity);
-        assertNull(responseEntity.getBody());
-        assertEquals(HttpStatusCode.valueOf(500), responseEntity.getStatusCode());
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
-    }
-
-    @Test
-    public void retrieveAllReviewsForProductByName_success_200(){
-        List<Review> retrievedProductReviews = testUtils.createReviewsList(testUtils.createSingleProduct(), testUtils.createNewCompleteClient());
-
-        when(productService.retrieveAllReviewsForProductByName(anyString())).thenReturn(retrievedProductReviews);
-
-        ResponseEntity<List<Review>> responseEntity = productControllerImpl.retrieveAllReviewsForProductByName("test");
-
-        assertNotNull(responseEntity);
-        assertNotNull(responseEntity.getBody());
-        assertEquals(HttpStatusCode.valueOf(200), responseEntity.getStatusCode());
-        assertEquals(retrievedProductReviews, responseEntity.getBody());
-    }
-
-    @Test
-    public void retrieveAllReviewsForProductByName_failure_400(){
-        when(productService.retrieveAllReviewsForProductByName(anyString())).thenReturn(null);
-
-        ResponseEntity<List<Review>> responseEntity = productControllerImpl.retrieveAllReviewsForProductByName("test");
-
-        assertNotNull(responseEntity);
-        assertNull(responseEntity.getBody());
-        assertEquals(HttpStatusCode.valueOf(400), responseEntity.getStatusCode());
-        assertEquals(HttpStatus.NOT_FOUND.getReasonPhrase(), responseEntity.getHeaders().get("error-message").get(0));
-    }
-
-    @Test
-    public void retrieveAllReviewsForProductByName_failure_500(){
-        when(productService.retrieveAllReviewsForProductByName(anyString())).thenThrow(new NullPointerException());
-
-        ResponseEntity<List<Review>> responseEntity = productControllerImpl.retrieveAllReviewsForProductByName("test");
+        ResponseEntity<List<Review>> responseEntity = productControllerImpl.retrieveAllReviewsForProductById(0, 20, 0);
 
         assertNotNull(responseEntity);
         assertNull(responseEntity.getBody());
