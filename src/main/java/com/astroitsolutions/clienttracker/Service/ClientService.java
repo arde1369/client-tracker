@@ -8,14 +8,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.astroitsolutions.clienttracker.Dao.ClientDao;
+import com.astroitsolutions.clienttracker.Dao.ProductDao;
+import com.astroitsolutions.clienttracker.Dao.ReviewDao;
+import com.astroitsolutions.clienttracker.Dao.TransactionDao;
 import com.astroitsolutions.clienttracker.Entity.Client;
 import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
-import com.astroitsolutions.clienttracker.Repository.ClientRepository;
-import com.astroitsolutions.clienttracker.Repository.ProductRepository;
-import com.astroitsolutions.clienttracker.Repository.ReviewRepository;
-import com.astroitsolutions.clienttracker.Repository.TransactionRepository;
 import com.astroitsolutions.clienttracker.Util.RatingCalculator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,22 +25,22 @@ import lombok.extern.slf4j.Slf4j;
 public class ClientService {
     
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientDao clientDao;
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductDao productDao;
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private ReviewDao reviewDao;
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionDao transactionDao;
     
     public Client addClient(Client client){
 
         log.debug("Adding client: " + client.toString());
 
-        Client addedClient = clientRepository.save(client);
+        Client addedClient = clientDao.save(client);
         log.info("Successfully added client: " + addedClient);
         
         return addedClient;
@@ -49,7 +49,7 @@ public class ClientService {
     public Client retrieveClientById(int id){
         log.debug("Retrieving client by ID: " + String.valueOf(id));
 
-        Optional<Client> retrievedClientOptional = clientRepository.findById(id);
+        Optional<Client> retrievedClientOptional = clientDao.findById(id);
 
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
@@ -65,7 +65,7 @@ public class ClientService {
     public Client retrieveClientByFirstnameAndLastname(String firstname, String lastname){
         log.debug("Retrieving client by firsname - " + firstname +", and lastname - " + lastname);
 
-        Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
+        Optional<Client> retrievedClientOptional = clientDao.findByFirstnameAndLastname(firstname, lastname);
 
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
@@ -79,7 +79,7 @@ public class ClientService {
     public boolean addReviewForProductByClientId(int clientId, Review review){
         log.debug("Adding review by client id - " + clientId);
 
-        Optional<Client> retrievedClientOptional = clientRepository.findById(clientId);
+        Optional<Client> retrievedClientOptional = clientDao.findById(clientId);
         boolean results = false;
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
@@ -89,7 +89,7 @@ public class ClientService {
 
             updateProductRatingFromReview(review);
 
-            clientRepository.save(retrievedClient);
+            clientDao.save(retrievedClient);
             log.info("Successfully added review for client ID " + clientId);
             results = true;
         } else {
@@ -100,14 +100,14 @@ public class ClientService {
 
     //Helper method to update product rating from review
     private void updateProductRatingFromReview(Review review) {
-        Optional<Product> retrievedProductOptional = productRepository.findById(review.getProduct().getId());
+        Optional<Product> retrievedProductOptional = productDao.findById(review.getProduct().getId());
         Product retrievedProduct = retrievedProductOptional.get();
 
         int calculatedRating = RatingCalculator.calculate(review.getRating(), retrievedProduct.getRating(), retrievedProduct.getNumberOfRatings());
         retrievedProduct.setRating(calculatedRating);
         retrievedProduct.getProductReviews().add(review);
 
-        productRepository.save(retrievedProduct);
+        productDao.save(retrievedProduct);
     }
 
     public List<Review> getReviewsAddedByClientById(int id, int pageSize, int pageNumber){
@@ -115,7 +115,7 @@ public class ClientService {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        Optional<List<Review>> retrievedReviewListOptional = reviewRepository.findAllByClientId(id, pageable);
+        Optional<List<Review>> retrievedReviewListOptional = reviewDao.findAllByClientId(id, pageable);
         if(retrievedReviewListOptional.isPresent()){
             List<Review> retreivedReviewsList = retrievedReviewListOptional.get();
 
@@ -130,7 +130,7 @@ public class ClientService {
 
     public boolean addTransactionForClientById(int id, Transaction transaction){
         log.debug("Adding transaction" + transaction + " for client id - " + id);
-        Optional<Client> retrievedClientOptional = clientRepository.findById(id);
+        Optional<Client> retrievedClientOptional = clientDao.findById(id);
         boolean results = false;
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
@@ -139,7 +139,7 @@ public class ClientService {
             retrievedClient.getTransactions().add(transaction);
             transaction.setClient(retrievedClient);
 
-            clientRepository.save(retrievedClient);
+            clientDao.save(retrievedClient);
             results = true;
             log.debug("Successfully Added transaction" + transaction + " for client id - " + id);
         } else {
@@ -151,14 +151,14 @@ public class ClientService {
     public boolean addTransactionForClientByFirstnameAndLastname(String firstname, String lastname, Transaction transaction){
         log.debug("Adding transaction " + transaction + " by firsname - " + firstname +", and lastname - " + lastname);
 
-        Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
+        Optional<Client> retrievedClientOptional = clientDao.findByFirstnameAndLastname(firstname, lastname);
         boolean results = false;
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
             retrievedClient.getTransactions().add(transaction);
             transaction.setClient(retrievedClient);
 
-            clientRepository.save(retrievedClient);
+            clientDao.save(retrievedClient);
             results = true;
             log.info("Successfully Added transaction for client by firsname - " + firstname +", and lastname - " + lastname);
         } else {
@@ -172,7 +172,7 @@ public class ClientService {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        Optional<List<Transaction>> retrievedTransactionListOptional = transactionRepository.findAllByClientId(id, pageable);
+        Optional<List<Transaction>> retrievedTransactionListOptional = transactionDao.findAllByClientId(id, pageable);
         if(retrievedTransactionListOptional.isPresent()){
             List<Transaction> retrievedClient = retrievedTransactionListOptional.get();
 
@@ -188,7 +188,7 @@ public class ClientService {
     public boolean updateRatingForClientById(int id, int rating){
         log.debug("Updating rating for client by client id - " + id);
 
-        Optional<Client> retrievedClientOptional = clientRepository.findById(id);
+        Optional<Client> retrievedClientOptional = clientDao.findById(id);
         boolean results = false;
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
@@ -197,7 +197,7 @@ public class ClientService {
 
             retrievedClient.setRating(calculatedRating);
 
-            clientRepository.save(retrievedClient);
+            clientDao.save(retrievedClient);
             
             results = true;
             
@@ -210,7 +210,7 @@ public class ClientService {
 
     public boolean updateRatingForClientByFirstnameAndLastname(String firstname, String lastname, int rating){
         log.debug("Updating rating for client by firsname - " + firstname +", and lastname - " + lastname);
-        Optional<Client> retrievedClientOptional = clientRepository.findByFirstnameAndLastname(firstname, lastname);
+        Optional<Client> retrievedClientOptional = clientDao.findByFirstnameAndLastname(firstname, lastname);
         boolean results = false;
         if(retrievedClientOptional.isPresent()){
             Client retrievedClient = retrievedClientOptional.get();
@@ -219,7 +219,7 @@ public class ClientService {
 
             retrievedClient.setRating(calculatedRatingEnum);
 
-            clientRepository.save(retrievedClient);
+            clientDao.save(retrievedClient);
 
             results = true;
 
@@ -232,11 +232,11 @@ public class ClientService {
 
     // public void deleteClientById(int id){
     //     log.info("Removing client by ID: " + id);
-    //     clientRepository.deleteById(id);
+    //     clientDao.deleteById(id);
     // }
 
     // public void deleteClientByFirstAndLastname(String firstname, String lastname){
     //     log.info("Removing client by firsname - " + firstname +", and lastname - " + lastname);
-    //     clientRepository.deleteByFirstnameAndLastname(firstname, lastname);
+    //     clientDao.deleteByFirstnameAndLastname(firstname, lastname);
     // }
 }

@@ -14,8 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.astroitsolutions.clienttracker.Dao.TransactionDao;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
-import com.astroitsolutions.clienttracker.Repository.TransactionRepository;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 
@@ -29,7 +29,7 @@ public class TransactionServiceTest {
 
 
     @MockBean
-    private TransactionRepository transactionRepository;
+    private TransactionDao transactionRepository;
 
     TestUtils testUtils = new TestUtils();
     

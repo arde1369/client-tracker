@@ -15,10 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.astroitsolutions.clienttracker.Dao.ProductDao;
+import com.astroitsolutions.clienttracker.Dao.ReviewDao;
 import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
-import com.astroitsolutions.clienttracker.Repository.ProductRepository;
-import com.astroitsolutions.clienttracker.Repository.ReviewRepository;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 
@@ -30,10 +30,10 @@ public class ProductServiceTest {
     private ProductService productService;
 
     @MockBean
-    private ProductRepository productRepository;
+    private ProductDao productRepository;
 
     @MockBean
-    private ReviewRepository reviewRepository;
+    private ReviewDao reviewRepository;
 
     TestUtils clientTestUtils = new TestUtils();
 
@@ -53,7 +53,7 @@ public class ProductServiceTest {
     public void findProductById_success(){
         Product mockproduct = clientTestUtils.createSingleProduct();
 
-        Mockito.when(productRepository.findById(any())).thenReturn(Optional.of(mockproduct));
+        Mockito.when(productRepository.findById(anyInt())).thenReturn(Optional.of(mockproduct));
 
         Product p = productService.findProductById(mockproduct.getId());
 
@@ -77,7 +77,7 @@ public class ProductServiceTest {
     public void findProductById_null_noProductFoundById(){
         Product mockproduct = clientTestUtils.createSingleProduct();
 
-        Mockito.when(productRepository.findById(any())).thenReturn(Optional.empty());
+        Mockito.when(productRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         Product p = productService.findProductById(mockproduct.getId());
 
@@ -88,7 +88,7 @@ public class ProductServiceTest {
     public void findProductByName_null_noProductFoundByName(){
         Product mockproduct = clientTestUtils.createSingleProduct();
 
-        Mockito.when(productRepository.findByName(any())).thenReturn(Optional.empty());
+        Mockito.when(productRepository.findByName(anyString())).thenReturn(Optional.empty());
 
         Product p = productService.findProductByName(mockproduct.getName());
 

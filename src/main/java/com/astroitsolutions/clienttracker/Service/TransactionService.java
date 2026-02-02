@@ -11,8 +11,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.astroitsolutions.clienttracker.Dao.TransactionDao;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
-import com.astroitsolutions.clienttracker.Repository.TransactionRepository;
 
 import io.micrometer.common.util.StringUtils;
 
@@ -22,7 +22,7 @@ public class TransactionService {
     public static final String DATE_FORMAT = "yyyy-MM-dd";
 
     @Autowired
-    private TransactionRepository transactionRepository;
+    private TransactionDao transactionDao;
 
     public List<Transaction> findAllTransactionsByCreatedTimeStamp(String from, String to, int pageSize, int pageNumber) throws ParseException{
 
@@ -38,6 +38,6 @@ public class TransactionService {
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        return transactionRepository.findByCreatedTimeStampBetween(fromDate, toDate, pageable);
+        return transactionDao.findByCreatedTimeStampBetween(fromDate, toDate, pageable);
     }
 }

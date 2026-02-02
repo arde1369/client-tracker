@@ -89,6 +89,13 @@
 			<version>${ehcache.version}</version>
 		</dependency>
 
+		<!-- Resiliency tools -->
+		<dependency>
+    		<groupId>io.github.resilience4j</groupId>
+			<artifactId>resilience4j-spring-boot3</artifactId>
+			<version>2.3.0</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

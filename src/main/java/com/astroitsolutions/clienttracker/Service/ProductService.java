@@ -9,10 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.astroitsolutions.clienttracker.Dao.ProductDao;
+import com.astroitsolutions.clienttracker.Dao.ReviewDao;
 import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
-import com.astroitsolutions.clienttracker.Repository.ProductRepository;
-import com.astroitsolutions.clienttracker.Repository.ReviewRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,15 +22,15 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductService {
     
     @Autowired
-    private ProductRepository productRepository;
+    private ProductDao productDao;
 
     @Autowired
-    private ReviewRepository reviewRepository;
+    private ReviewDao reviewDao;
 
     public Product addProduct(Product product){
         log.debug("Adding product: " + product.toString());
 
-        Product addedProduct = productRepository.save(product);
+        Product addedProduct = productDao.save(product);
         log.info("Successfully added client: " + addedProduct);
 
         return addedProduct;
@@ -39,7 +39,7 @@ public class ProductService {
     public Product findProductById(int id){
         log.debug("Retrieving product by ID: " + String.valueOf(id));
 
-        Optional<Product> retrievedProductOptional = productRepository.findById(id);
+        Optional<Product> retrievedProductOptional = productDao.findById(id);
 
         if(retrievedProductOptional.isPresent()){
             Product retrievedProduct = retrievedProductOptional.get();
@@ -55,7 +55,7 @@ public class ProductService {
     public Product findProductByName(String name){
         log.debug("Retrieving product by name: " + name);
 
-        Optional<Product> retrievedProductOptional = productRepository.findByName(name);
+        Optional<Product> retrievedProductOptional = productDao.findByName(name);
 
         if(retrievedProductOptional.isPresent()){
             Product retrievedProduct = retrievedProductOptional.get();
@@ -72,7 +72,7 @@ public class ProductService {
         log.debug("Retrieving reviews for product by ID: " + String.valueOf(id));
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Optional<List<Review>> reviewsListOptional= reviewRepository.findAllByProductId(id, pageable);
+        Optional<List<Review>> reviewsListOptional= reviewDao.findAllByProductId(id, pageable);
 
         if(reviewsListOptional.isPresent()){
             List<Review> reviewsList = reviewsListOptional.get();
@@ -88,7 +88,7 @@ public class ProductService {
     public Product activateProductById(int productId){
         log.debug("Activating product by id: " + productId);
 
-        Optional<Product> retrievedProductOptional = productRepository.findById(productId);
+        Optional<Product> retrievedProductOptional = productDao.findById(productId);
         Product retrievedProduct = null;
 
         if(retrievedProductOptional.isPresent()){
@@ -108,7 +108,7 @@ public class ProductService {
     public Product deactivateProductById(int productId){
         log.debug("Deactivating product by id: " + productId);
 
-        Optional<Product> retrievedProductOptional = productRepository.findById(productId);
+        Optional<Product> retrievedProductOptional = productDao.findById(productId);
         Product retrievedProduct = null;
 
         if(retrievedProductOptional.isPresent()){
@@ -128,7 +128,7 @@ public class ProductService {
     public Product activateProductByName(String name){
         log.debug("Activating product by name: " + name);
 
-        Optional<Product> retrievedProductOptional = productRepository.findByName(name);
+        Optional<Product> retrievedProductOptional = productDao.findByName(name);
         Product retrievedProduct = null;
 
         if(retrievedProductOptional.isPresent()){
@@ -148,7 +148,7 @@ public class ProductService {
     public Product deactivateProductByName(String name){
         log.debug("Deactivating product by name: " + name);
 
-        Optional<Product> retrievedProductOptional = productRepository.findByName(name);
+        Optional<Product> retrievedProductOptional = productDao.findByName(name);
         Product retrievedProduct = null;
         if(retrievedProductOptional.isPresent()){
             retrievedProduct = retrievedProductOptional.get();
@@ -166,11 +166,11 @@ public class ProductService {
 
     // public void deleteProductById(int id){
     //     log.debug("Deleting product by id: " + id);
-    //     productRepository.deleteById(id);
+    //     productDao.deleteById(id);
     // }
 
     // public void deleteProductByName(String name){
     //     log.debug("Deleting product by name: " + name);
-    //     productRepository.deleteByName(name);
+    //     productDao.deleteByName(name);
     // }
 }

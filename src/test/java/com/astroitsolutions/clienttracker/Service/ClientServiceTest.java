@@ -3,6 +3,7 @@ package com.astroitsolutions.clienttracker.Service;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyString;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,14 +15,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.astroitsolutions.clienttracker.Dao.ClientDao;
+import com.astroitsolutions.clienttracker.Dao.ProductDao;
+import com.astroitsolutions.clienttracker.Dao.ReviewDao;
+import com.astroitsolutions.clienttracker.Dao.TransactionDao;
 import com.astroitsolutions.clienttracker.Entity.Client;
 import com.astroitsolutions.clienttracker.Entity.Product;
 import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Entity.Transaction;
-import com.astroitsolutions.clienttracker.Repository.ClientRepository;
-import com.astroitsolutions.clienttracker.Repository.ProductRepository;
-import com.astroitsolutions.clienttracker.Repository.ReviewRepository;
-import com.astroitsolutions.clienttracker.Repository.TransactionRepository;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 @SpringBootTest
@@ -33,19 +34,19 @@ public class ClientServiceTest {
 
 
     @MockBean
-    private ClientRepository clientRepository;
+    private ClientDao clientRepository;
 
 
     @MockBean
-    private ProductRepository productRepository;
+    private ProductDao productRepository;
 
     @MockBean
-    private TransactionRepository transactionRepository;
+    private TransactionDao transactionRepository;
 
     TestUtils testUtils = new TestUtils();
 
     @MockBean
-    private ReviewRepository reviewRepository;
+    private ReviewDao reviewRepository;
 
     @Test
     public void addClient_success(){
@@ -65,7 +66,7 @@ public class ClientServiceTest {
         Client mockClient = testUtils.createNewCompleteClient();
 
         Optional<Client>  clientOptional= Optional.of(mockClient);
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(clientOptional);
 
         Client c = clientService.retrieveClientById(1);
 
@@ -77,7 +78,7 @@ public class ClientServiceTest {
     public void retrieveClientById_null_noClientFoundById(){
 
         Optional<Client>  clientOptional= Optional.empty();
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(clientOptional);
 
         Client c = clientService.retrieveClientById(1);
 
@@ -117,8 +118,8 @@ public class ClientServiceTest {
 
         Review mockReview = testUtils.createReviewsList(mockProduct, mockClient).get(0);
 
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
-        Mockito.when(productRepository.findById(any())).thenReturn(productOptional);
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(clientOptional);
+        Mockito.when(productRepository.findById(anyInt())).thenReturn(productOptional);
 
         assertTrue(clientService.addReviewForProductByClientId(mockClient.getId(), mockReview));
     }
@@ -132,7 +133,7 @@ public class ClientServiceTest {
 
         Review mockReview = testUtils.createReviewsList(mockProduct, mockClient).get(0);
 
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(clientOptional);
 
         assertFalse(clientService.addReviewForProductByClientId(mockClient.getId(), mockReview));
     }
@@ -165,7 +166,7 @@ public class ClientServiceTest {
         Optional<Client>  clientOptional= Optional.of(mockClient);
         Transaction transaction = testUtils.createSingleTransaction(mockClient);
 
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(clientOptional);
 
         boolean resultOfOperation = clientService.addTransactionForClientById(mockClient.getId(), transaction);
 
@@ -179,7 +180,7 @@ public class ClientServiceTest {
         Optional<Client>  clientOptional= Optional.of(mockClient);
         Transaction transaction = testUtils.createSingleTransaction(mockClient);
 
-        Mockito.when(clientRepository.findByFirstnameAndLastname(any(), any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findByFirstnameAndLastname(anyString(), anyString())).thenReturn(clientOptional);
 
         boolean resultOfOperation = clientService.addTransactionForClientByFirstnameAndLastname(mockClient.getFirstname(), mockClient.getLastname(), transaction);
 
@@ -193,7 +194,7 @@ public class ClientServiceTest {
         Optional<Client>  clientOptional= Optional.empty();
         Transaction transaction = testUtils.createSingleTransaction(mockClient);
 
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(clientOptional);
 
         boolean resultOfOperation = clientService.addTransactionForClientById(mockClient.getId(), transaction);
 
@@ -207,7 +208,7 @@ public class ClientServiceTest {
         Optional<Client>  clientOptional= Optional.empty();
         Transaction transaction = testUtils.createSingleTransaction(mockClient);
 
-        Mockito.when(clientRepository.findByFirstnameAndLastname(any(), any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findByFirstnameAndLastname(anyString(), anyString())).thenReturn(clientOptional);
 
         boolean resultOfOperation = clientService.addTransactionForClientByFirstnameAndLastname(mockClient.getFirstname(), mockClient.getLastname(), transaction);
 
@@ -241,7 +242,7 @@ public class ClientServiceTest {
         Client mockClient = testUtils.createNewCompleteClient();
         Optional<Client>  clientOptional= Optional.empty();
 
-        Mockito.when(clientRepository.findByFirstnameAndLastname(any(), any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findByFirstnameAndLastname(anyString(), anyString())).thenReturn(clientOptional);
 
         List<Transaction> listOfTransactions = clientService.getTransactionsByClientById(mockClient.getId(), 20, 0);
 
@@ -253,7 +254,7 @@ public class ClientServiceTest {
         Client mockClient = testUtils.createNewCompleteClient();
         Optional<Client>  clientOptional= Optional.of(mockClient);
 
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(clientOptional);
 
         boolean resultOfOperation = clientService.updateRatingForClientById(mockClient.getId(), 1);
 
@@ -267,7 +268,7 @@ public class ClientServiceTest {
         Client mockClient = testUtils.createNewCompleteClient();
         Optional<Client>  clientOptional= Optional.of(mockClient);
 
-        Mockito.when(clientRepository.findByFirstnameAndLastname(any(), any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findByFirstnameAndLastname(anyString(), anyString())).thenReturn(clientOptional);
 
         boolean resultOfOperation = clientService.updateRatingForClientByFirstnameAndLastname(mockClient.getFirstname(), mockClient.getLastname(), 1);
 
@@ -280,7 +281,7 @@ public class ClientServiceTest {
         Client mockClient = testUtils.createNewCompleteClient();
         Optional<Client>  clientOptional= Optional.empty();
 
-        Mockito.when(clientRepository.findById(any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findById(anyInt())).thenReturn(clientOptional);
 
         boolean resultOfOperation = clientService.updateRatingForClientById(mockClient.getId(), 1);
 
@@ -293,7 +294,7 @@ public class ClientServiceTest {
         Client mockClient = testUtils.createNewCompleteClient();
         Optional<Client>  clientOptional= Optional.empty();
 
-        Mockito.when(clientRepository.findByFirstnameAndLastname(any(), any())).thenReturn(clientOptional);
+        Mockito.when(clientRepository.findByFirstnameAndLastname(anyString(), anyString())).thenReturn(clientOptional);
 
         boolean resultOfOperation = clientService.updateRatingForClientByFirstnameAndLastname(mockClient.getFirstname(), mockClient.getLastname(), 1);
 
