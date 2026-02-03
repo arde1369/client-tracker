@@ -69,7 +69,7 @@ public class DatabaseCircuitBreaker {
     public CircuitBreaker databaseCircuitBreakerBean(CircuitBreakerRegistry circuitBreakerRegistry, CircuitBreakerConfig circuitBreakerConfig) {
         CircuitBreaker databaseCircuitBreaker = circuitBreakerRegistry.circuitBreaker(CIRCUIT_BREAKER_NAME, circuitBreakerConfig);
         if(allBreakersOff || databaseBreakerOff){
-            databaseCircuitBreaker.disable();
+            databaseCircuitBreaker.transitionToDisabledState();
         }
         return databaseCircuitBreaker;
     }
