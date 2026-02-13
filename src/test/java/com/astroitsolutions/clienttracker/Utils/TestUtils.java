@@ -6,11 +6,11 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import com.astroitsolutions.clienttracker.Entity.Address;
-import com.astroitsolutions.clienttracker.Entity.Client;
-import com.astroitsolutions.clienttracker.Entity.Product;
-import com.astroitsolutions.clienttracker.Entity.Review;
-import com.astroitsolutions.clienttracker.Entity.Transaction;
+import com.astroitsolutions.data_services.Entity.Address;
+import com.astroitsolutions.data_services.Entity.Client;
+import com.astroitsolutions.data_services.Entity.Product;
+import com.astroitsolutions.data_services.Entity.Review;
+import com.astroitsolutions.data_services.Entity.Transaction;
 
 public class TestUtils {
 

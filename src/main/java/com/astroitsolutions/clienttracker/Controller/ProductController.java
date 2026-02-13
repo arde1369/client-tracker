@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.http.ResponseEntity;
 
-import com.astroitsolutions.clienttracker.Entity.Product;
-import com.astroitsolutions.clienttracker.Entity.Review;
+import com.astroitsolutions.data_services.Entity.Product;
+import com.astroitsolutions.data_services.Entity.Review;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

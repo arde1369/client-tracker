@@ -15,14 +15,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.astroitsolutions.clienttracker.Dao.ClientDao;
-import com.astroitsolutions.clienttracker.Dao.ProductDao;
-import com.astroitsolutions.clienttracker.Dao.ReviewDao;
-import com.astroitsolutions.clienttracker.Dao.TransactionDao;
-import com.astroitsolutions.clienttracker.Entity.Client;
-import com.astroitsolutions.clienttracker.Entity.Product;
-import com.astroitsolutions.clienttracker.Entity.Review;
-import com.astroitsolutions.clienttracker.Entity.Transaction;
+import com.astroitsolutions.data_services.Dao.ClientDao;
+import com.astroitsolutions.data_services.Dao.ProductDao;
+import com.astroitsolutions.data_services.Dao.ReviewDao;
+import com.astroitsolutions.data_services.Dao.TransactionDao;
+import com.astroitsolutions.data_services.Entity.Client;
+import com.astroitsolutions.data_services.Entity.Product;
+import com.astroitsolutions.data_services.Entity.Review;
+import com.astroitsolutions.data_services.Entity.Transaction;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 @SpringBootTest

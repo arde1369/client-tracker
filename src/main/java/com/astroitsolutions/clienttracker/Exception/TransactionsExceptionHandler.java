@@ -15,13 +15,13 @@ public class TransactionsExceptionHandler {
     
     @ExceptionHandler(ParseException.class)
     public ResponseEntity<String> handleParseException(ParseException ex) {
-        log.error("An error occurred when parsing date: " + ex.getMessage());
+        log.error("An error occurred when parsing date: {}", ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("An error occurred when parsing date");
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleUnknownExceptions(Exception ex) {
-        log.error("An error occurred when processing request: " + ex.getMessage());
+        log.error("An error occurred when processing request: {}", ex.getMessage(), ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred when processing request");
     }
 }

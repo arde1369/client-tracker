@@ -18,9 +18,9 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
-import com.astroitsolutions.clienttracker.Entity.Client;
-import com.astroitsolutions.clienttracker.Entity.Review;
-import com.astroitsolutions.clienttracker.Entity.Transaction;
+import com.astroitsolutions.data_services.Entity.Client;
+import com.astroitsolutions.data_services.Entity.Review;
+import com.astroitsolutions.data_services.Entity.Transaction;
 import com.astroitsolutions.clienttracker.Service.ClientService;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;

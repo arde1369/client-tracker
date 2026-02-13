@@ -14,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.astroitsolutions.clienttracker.Entity.Product;
-import com.astroitsolutions.clienttracker.Entity.Review;
 import com.astroitsolutions.clienttracker.Service.ProductService;
+import com.astroitsolutions.data_services.Entity.Product;
+import com.astroitsolutions.data_services.Entity.Review;
 
 import jakarta.annotation.Nonnull;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/product")
+@RequestMapping("/clienttracker/product")
 @Slf4j
 public class ProductControllerImpl implements ProductController {
 

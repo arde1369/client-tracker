@@ -14,15 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import com.astroitsolutions.clienttracker.Entity.Client;
-import com.astroitsolutions.clienttracker.Entity.Review;
-import com.astroitsolutions.clienttracker.Entity.Transaction;
+
 import com.astroitsolutions.clienttracker.Service.ClientService;
+import com.astroitsolutions.data_services.Entity.Client;
+import com.astroitsolutions.data_services.Entity.Review;
+import com.astroitsolutions.data_services.Entity.Transaction;
 
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/api/client")
+@RequestMapping("/clienttracker/client")
 @Slf4j
 public class ClientControllerImpl implements ClientController {
 

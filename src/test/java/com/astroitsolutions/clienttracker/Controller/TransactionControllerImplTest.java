@@ -23,8 +23,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.astroitsolutions.clienttracker.Entity.Transaction;
-import com.astroitsolutions.clienttracker.Entity.Client;
+import com.astroitsolutions.data_services.Entity.Transaction;
+import com.astroitsolutions.data_services.Entity.Client;
 import com.astroitsolutions.clienttracker.Service.TransactionService;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
@@ -73,7 +73,7 @@ public class TransactionControllerImplTest {
 
         when(transactionService.findAllTransactionsByCreatedTimeStamp(anyString(), anyString(), anyInt(), anyInt())).thenThrow(new ParseException("err", 0));
 
-        mockMvc.perform(get("/api/tansaction/")
+        mockMvc.perform(get("/clienttracker/tansaction/find")
                 .param("from", "12-1-2021")
                 .param("to", "12-1-2022")
                 .param("pageSize", "20")

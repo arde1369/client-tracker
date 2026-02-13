@@ -9,10 +9,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.astroitsolutions.clienttracker.Dao.ProductDao;
-import com.astroitsolutions.clienttracker.Dao.ReviewDao;
-import com.astroitsolutions.clienttracker.Entity.Product;
-import com.astroitsolutions.clienttracker.Entity.Review;
+import com.astroitsolutions.data_services.Dao.ProductDao;
+import com.astroitsolutions.data_services.Dao.ReviewDao;
+import com.astroitsolutions.data_services.Entity.Product;
+import com.astroitsolutions.data_services.Entity.Review;
 
 import lombok.extern.slf4j.Slf4j;
 

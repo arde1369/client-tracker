@@ -12,8 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.astroitsolutions.clienttracker.Dao.TransactionDao;
-import com.astroitsolutions.clienttracker.Entity.Transaction;
+import com.astroitsolutions.data_services.Dao.TransactionDao;
+import com.astroitsolutions.data_services.Entity.Transaction;
+
 
 
 @Service
