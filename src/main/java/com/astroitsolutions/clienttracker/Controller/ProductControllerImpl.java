@@ -1,6 +1,8 @@
 package com.astroitsolutions.clienttracker.Controller;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -118,24 +120,34 @@ public class ProductControllerImpl implements ProductController {
     @Override
     @PutMapping("/activate/id")
     public ResponseEntity<Product> activateProductById(@RequestParam int id) {
-        Product retrievedProduct = null;
-        try{
-            retrievedProduct = productService.activateProductById(id);
-            if(retrievedProduct == null){
+
+        CompletableFuture<ResponseEntity<? extends Object>> retrievedProductFuture = CompletableFuture.supplyAsync(() -> {
+            return productService.activateProductById(id);
+        }).thenApply(product -> {
+            if(product == null){
                 log.error("Unable to activate product by id - " + id);
                 return ResponseEntity
                 .badRequest()
                 .header("error-message", HttpStatus.NOT_FOUND.getReasonPhrase())
                 .body(null);
             }
-        } catch(Exception ex){
+            return ResponseEntity.ok(product);
+        }).exceptionally(ex -> {
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity
                 .internalServerError()
                 .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
                 .body(null);
+        });
+        try{
+            return (ResponseEntity<Product>) retrievedProductFuture.get();
+        } catch(ExecutionException | InterruptedException ex){
+            log.error("Unexpected error occurred while retrieving product activation result - ", ex);
+                return ResponseEntity
+                .internalServerError()
+                .header("error-message", HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase())
+                .body(null);
         }
-        return ResponseEntity.ok(retrievedProduct);
     }
 
     @Override
