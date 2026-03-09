@@ -30,7 +30,7 @@ public class TransactionControllerImpl implements TransactionController {
     public ResponseEntity<List<Transaction>> findAllTransactionsByCreatedTimeStamp(@RequestParam @NonNull String from, @RequestParam String to, @RequestParam int pageSize, @RequestParam int pageNumber) throws ParseException {
         List<Transaction> listOfTransactions = null;
         
-        listOfTransactions = transactionService.findAllTransactionsByCreatedTimeStamp(from, to, pageSize, pageNumber);
+        listOfTransactions = transactionService.findAllTransactionsByCreatedTimeStamp(from.toLowerCase(), to.toLowerCase(), pageSize, pageNumber);
 
         return ResponseEntity.ok(listOfTransactions);
     }

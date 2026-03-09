@@ -74,7 +74,7 @@ public class ClientControllerImpl implements ClientController {
     public ResponseEntity<Client> retrieveClientByFirstnameAndLastname(@RequestParam @NonNull String firstname, @RequestParam @NonNull String lastname) {
         Client retrievedClient = null;
         try{
-            retrievedClient = clientService.retrieveClientByFirstnameAndLastname(firstname, lastname);
+            retrievedClient = clientService.retrieveClientByFirstnameAndLastname(firstname.toLowerCase(), lastname.toLowerCase());
             if(retrievedClient == null){
                 log.error("Unable to Retrieve client by firsname - " + firstname +", and lastname - " + lastname);
                 return ResponseEntity
@@ -207,7 +207,7 @@ public class ClientControllerImpl implements ClientController {
     public ResponseEntity<HttpStatus> updateRatingForClientByFirstnameAndLastname(@RequestParam String firstname, @RequestParam String lastname, @RequestParam int rating) {
         boolean results = false;
         try{
-            results = clientService.updateRatingForClientByFirstnameAndLastname(firstname, lastname, rating);
+            results = clientService.updateRatingForClientByFirstnameAndLastname(firstname.toLowerCase(), lastname.toLowerCase(), rating);
         } catch(Exception ex){
             log.error("Unexpected error occurred - ", ex);
                 return ResponseEntity

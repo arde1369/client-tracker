@@ -75,7 +75,7 @@ public class ProductControllerImpl implements ProductController {
     public ResponseEntity<Product> findProductByName(@RequestParam String name) {
         Product retrievedProduct = null;
         try{
-            retrievedProduct = productService.findProductByName(name);
+            retrievedProduct = productService.findProductByName(name.toLowerCase());
             if(retrievedProduct == null){
                 log.error("Unable to Retrieve product by name - " + name);
                 return ResponseEntity
@@ -178,7 +178,7 @@ public class ProductControllerImpl implements ProductController {
     public ResponseEntity<Product> activateProductByName(@RequestParam String name) {
         Product retrievedProduct = null;
         try{
-            retrievedProduct = productService.activateProductByName(name);
+            retrievedProduct = productService.activateProductByName(name.toLowerCase());
             if(retrievedProduct == null){
                 log.error("Unable to activate product by name - " + name);
                 return ResponseEntity
@@ -201,7 +201,7 @@ public class ProductControllerImpl implements ProductController {
     public ResponseEntity<Product> deactivateProductByName(@RequestParam String name) {
         Product retrievedProduct = null;
         try{
-            retrievedProduct = productService.deactivateProductByName(name);
+            retrievedProduct = productService.deactivateProductByName(name.toLowerCase());
             if(retrievedProduct == null){
                 log.error("Unable to deactivate product by name - " + name);
                 return ResponseEntity
