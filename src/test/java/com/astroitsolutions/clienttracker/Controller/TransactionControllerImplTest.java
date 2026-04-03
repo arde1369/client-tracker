@@ -29,7 +29,7 @@ import com.astroitsolutions.clienttracker.Service.TransactionService;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 @SpringBootTest
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 public class TransactionControllerImplTest {
     
 
