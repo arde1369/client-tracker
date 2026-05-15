@@ -9,11 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.astroitsolutions.data_services.Dao.ClientDao;
 import com.astroitsolutions.data_services.Dao.ProductDao;
@@ -25,27 +26,26 @@ import com.astroitsolutions.data_services.Entity.Review;
 import com.astroitsolutions.data_services.Entity.Transaction;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class ClientServiceTest {
-    
 
-    @Autowired
+    @InjectMocks
     private ClientService clientService;
 
 
-    @MockBean
+    @Mock
     private ClientDao clientRepository;
 
 
-    @MockBean
+    @Mock
     private ProductDao productRepository;
 
-    @MockBean
+    @Mock
     private TransactionDao transactionRepository;
 
-    TestUtils testUtils = new TestUtils();
+    private final TestUtils testUtils = new TestUtils();
 
-    @MockBean
+    @Mock
     private ReviewDao reviewRepository;
 
     @Test
@@ -240,9 +240,6 @@ public class ClientServiceTest {
     @Test
     public void getTransactionsAddedByClientByFirstnameAndLastname_null_noClientFoundByName(){
         Client mockClient = testUtils.createNewCompleteClient();
-        Optional<Client>  clientOptional= Optional.empty();
-
-        Mockito.when(clientRepository.findByFirstnameAndLastname(anyString(), anyString())).thenReturn(clientOptional);
 
         List<Transaction> listOfTransactions = clientService.getTransactionsByClientById(mockClient.getId(), 20, 0);
 

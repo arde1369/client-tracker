@@ -7,31 +7,30 @@ import java.text.ParseException;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.astroitsolutions.data_services.Dao.TransactionDao;
 import com.astroitsolutions.data_services.Entity.Transaction;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class TransactionServiceTest {
 
 
-    @Autowired
     @InjectMocks
     private TransactionService transactionService;
 
 
-    @MockBean
+    @Mock
     private TransactionDao transactionRepository;
 
-    TestUtils testUtils = new TestUtils();
+    private final TestUtils testUtils = new TestUtils();
     
     @Test
     public void findAllTransactionsBetween_success() throws ParseException{

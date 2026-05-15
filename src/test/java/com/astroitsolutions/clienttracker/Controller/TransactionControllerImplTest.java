@@ -14,36 +14,43 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatusCode;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.astroitsolutions.data_services.Entity.Transaction;
 import com.astroitsolutions.data_services.Entity.Client;
+import com.astroitsolutions.clienttracker.Exception.TransactionsExceptionHandler;
 import com.astroitsolutions.clienttracker.Service.TransactionService;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
-@SpringBootTest
-@AutoConfigureMockMvc(addFilters = false)
+@ExtendWith(MockitoExtension.class)
 public class TransactionControllerImplTest {
-    
 
-    @Autowired
+    @InjectMocks
     private TransactionControllerImpl transactionControllerImpl;
 
-    @Autowired
     private MockMvc mockMvc;
 
 
-    @MockBean
+    @Mock
     private TransactionService transactionService;
 
-    private TestUtils testUtils = new TestUtils();
+    private final TestUtils testUtils = new TestUtils();
+
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(transactionControllerImpl)
+                .setControllerAdvice(new TransactionsExceptionHandler())
+                .build();
+    }
 
     @Test
     public void findAllTransactionsByCreatedTimeStamp_success_200(){

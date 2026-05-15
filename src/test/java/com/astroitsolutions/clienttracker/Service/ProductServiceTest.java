@@ -9,11 +9,12 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Pageable;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.astroitsolutions.data_services.Dao.ProductDao;
 import com.astroitsolutions.data_services.Dao.ReviewDao;
@@ -22,20 +23,20 @@ import com.astroitsolutions.data_services.Entity.Review;
 import com.astroitsolutions.clienttracker.Utils.TestUtils;
 
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
 
 
-    @Autowired
+    @InjectMocks
     private ProductService productService;
 
-    @MockBean
+    @Mock
     private ProductDao productRepository;
 
-    @MockBean
+    @Mock
     private ReviewDao reviewRepository;
 
-    TestUtils clientTestUtils = new TestUtils();
+    private final TestUtils clientTestUtils = new TestUtils();
 
     @Test
     public void addProduct_success(){
